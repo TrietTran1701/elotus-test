@@ -49,14 +49,14 @@
   }
 
   &__nav {
-    display: flex;
-    align-items: center;
-    gap: $spacing-sm;
-    flex: 1;
-    justify-content: center;
+    display: none;
 
-    @include respond-to(tablet) {
+    @include respond-to(desktop) {
+      display: flex;
+      align-items: center;
       gap: $spacing-md;
+      flex: 1;
+      justify-content: center;
     }
 
     &__link {
@@ -90,24 +90,24 @@
     white-space: nowrap;
 
     &__appBtn {
-      background: $primary-color;
-      border: none;
-      padding: $spacing-sm $spacing-md;
-      border-radius: 20px;
-      font-weight: 600;
-      font-size: $font-size-sm;
-      cursor: pointer;
-      color: $text-primary;
-      transition: opacity 0.2s, transform 0.2s;
+      display: none;
 
-      @include respond-to(tablet) {
-        font-size: $font-size-md;
-        padding: $spacing-sm $spacing-lg;
-      }
+      @include respond-to(desktop) {
+        display: block;
+        background: $primary-color;
+        border: none;
+        padding: $spacing-sm $spacing-md;
+        border-radius: 20px;
+        font-weight: 600;
+        font-size: $font-size-sm;
+        cursor: pointer;
+        color: $text-primary;
+        transition: opacity 0.2s, transform 0.2s;
 
-      &:hover {
-        opacity: 0.9;
-        transform: scale(1.05);
+        &:hover {
+          opacity: 0.9;
+          transform: scale(1.05);
+        }
       }
     }
 
@@ -121,28 +121,133 @@
     }
   }
 
-  // Hide nav on mobile if needed, or make it scrollable
-  @media (max-width: 767px) {
-    &__nav {
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-      scrollbar-width: none;
+  &__hamburger {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 24px;
+    height: 20px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    z-index: calc($z-index-fixed + 1);
+    position: relative;
 
-      &::-webkit-scrollbar {
-        display: none;
+    @include respond-to(desktop) {
+      display: none;
+    }
+
+    span {
+      width: 100%;
+      height: 2px;
+      background-color: $text-primary;
+      border-radius: 2px;
+      transition: all 0.3s ease;
+      transform-origin: center;
+    }
+
+    &--active {
+      span {
+        &:nth-child(1) {
+          transform: rotate(45deg) translate(7px, 7px);
+        }
+
+        &:nth-child(2) {
+          opacity: 0;
+        }
+
+        &:nth-child(3) {
+          transform: rotate(-45deg) translate(7px, -7px);
+        }
       }
     }
 
-    &__actions {
-      gap: $spacing-sm;
+    &:hover {
+      opacity: 0.8;
+    }
+  }
 
-      &__appBtn {
-        padding: $spacing-xs $spacing-sm;
-        font-size: $font-size-xs;
+  &__mobileMenu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.95);
+    z-index: $z-index-modal-backdrop;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+
+    @include respond-to(desktop) {
+      display: none;
+    }
+
+    &--open {
+      opacity: 1;
+      visibility: visible;
+
+      .header__mobileMenu__nav {
+        transform: translateX(0);
+      }
+    }
+
+    &__nav {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: $spacing-xl;
+      height: 100%;
+      padding: $spacing-2xl $spacing-lg;
+      background-color: rgba(10, 10, 10, 0.98);
+      width: 100%;
+      max-width: 400px;
+      margin-left: auto;
+      box-shadow: -4px 0 16px rgba(0, 0, 0, 0.5);
+      transform: translateX(100%);
+      transition: transform 0.3s ease;
+    }
+
+    &__link {
+      color: $text-primary;
+      font-size: $font-size-lg;
+      text-decoration: none;
+      transition: opacity 0.2s, color 0.2s;
+      padding: $spacing-md 0;
+      width: 100%;
+      text-align: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+
+      &:hover {
+        opacity: 0.8;
+        color: $primary-color;
       }
 
-      &__user {
-        display: none; // Hide on very small screens
+      &--active {
+        opacity: 1;
+        font-weight: 600;
+        color: $primary-color;
+      }
+    }
+
+    &__loginBtn {
+      background: $primary-color;
+      border: none;
+      padding: $spacing-md $spacing-xl;
+      border-radius: 20px;
+      font-weight: 600;
+      font-size: $font-size-md;
+      cursor: pointer;
+      color: $text-primary;
+      transition: opacity 0.2s, transform 0.2s;
+      margin-top: $spacing-lg;
+      width: 100%;
+
+      &:hover {
+        opacity: 0.9;
+        transform: scale(1.05);
       }
     }
   }

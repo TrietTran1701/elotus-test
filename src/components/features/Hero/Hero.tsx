@@ -15,13 +15,13 @@ export const Hero = ({ movies }: HeroProps) => {
   const [currentIndex, setCurrentIndex] = useState(0)
   const navigate = useNavigate()
 
-  // Auto-play carousel every 5 seconds
+  // Auto-play carousel every 8 seconds
   useEffect(() => {
     if (movies.length <= 1) return
 
     const interval = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % movies.length)
-    }, 5000)
+    }, 8000)
 
     return () => clearInterval(interval)
   }, [movies.length])
@@ -36,6 +36,10 @@ export const Hero = ({ movies }: HeroProps) => {
   const rating = formatRating(currentMovie.vote_average)
   const description = truncateText(currentMovie.overview, 200)
 
+  const getThumbnailUrl = (movie: Movie) => {
+    return moviesService.getPosterURL(movie, IMAGE_SIZES.POSTER.SMALL)
+  }
+
   const handlePlayClick = () => {
     navigate(buildMovieDetailRoute(currentMovie.id))
   }
@@ -48,13 +52,6 @@ export const Hero = ({ movies }: HeroProps) => {
     setCurrentIndex(index)
   }
 
-  const goToPrevious = () => {
-    setCurrentIndex((prev) => (prev - 1 + movies.length) % movies.length)
-  }
-
-  const goToNext = () => {
-    setCurrentIndex((prev) => (prev + 1) % movies.length)
-  }
 
   return (
     <section
@@ -64,57 +61,60 @@ export const Hero = ({ movies }: HeroProps) => {
       }}
     >
       <div className={styles.hero__overlay}>
-        <div className={styles.hero__content}>
-          <h1 className={styles.hero__title}>{currentMovie.title}</h1>
-          <h3 className={styles.hero__subtitle}>{currentMovie.original_title}</h3>
+        <div className={styles.hero__wrapper}>
+          <div className={styles.hero__content}>
+            <h1 className={styles.hero__title}>{currentMovie.title}</h1>
+            <h3 className={styles.hero__subtitle}>{currentMovie.original_title}</h3>
 
-          <div className={styles.hero__meta}>
-            <span className={`${styles.hero__tag} ${styles['hero__tag--imdb']}`}>
-              IMDb {rating}
-            </span>
-            <span className={styles.hero__tag}>{currentMovie.adult ? 'T18' : 'T13'}</span>
-            <span className={styles.hero__tag}>{year}</span>
+            <div className={styles.hero__meta}>
+              <span className={`${styles.hero__tag} ${styles['hero__tag--imdb']}`}>
+                IMDb {rating}
+              </span>
+              <span className={styles.hero__tag}>{currentMovie.adult ? 'T18' : 'T13'}</span>
+              <span className={styles.hero__tag}>{year}</span>
+            </div>
+
+            <p className={styles.hero__desc}>{description}</p>
+
+            <div className={styles.hero__actions}>
+              <button className={styles.hero__playBtn} onClick={handlePlayClick}>
+                ▶ Watch now
+              </button>
+              <button className={styles.hero__likeBtn}>♡</button>
+              <button className={styles.hero__infoBtn} onClick={handleInfoClick}>
+                ℹ
+              </button>
+            </div>
           </div>
 
-          <p className={styles.hero__desc}>{description}</p>
-
-          <div className={styles.hero__actions}>
-            <button className={styles.hero__playBtn} onClick={handlePlayClick}>
-              ▶ Watch now
-            </button>
-            <button className={styles.hero__likeBtn}>♡</button>
-            <button className={styles.hero__infoBtn} onClick={handleInfoClick}>
-              ℹ
-            </button>
-          </div>
+          {/* Thumbnail Navigation */}
+          {movies.length > 1 && (
+            <div className={styles.hero__thumbnails}>
+              {movies.map((movie, index) => {
+                const thumbnailUrl = getThumbnailUrl(movie)
+                return (
+                  <button
+                    key={movie.id}
+                    className={`${styles.hero__thumbnail} ${
+                      index === currentIndex ? styles['hero__thumbnail--active'] : ''
+                    }`}
+                    onClick={() => goToSlide(index)}
+                    aria-label={`Go to ${movie.title}`}
+                  >
+                    {thumbnailUrl && (
+                      <img
+                        src={thumbnailUrl}
+                        alt={movie.title}
+                        className={styles.hero__thumbnail__image}
+                      />
+                    )}
+                  </button>
+                )
+              })}
+            </div>
+          )}
         </div>
       </div>
-
-      {/* Carousel Controls */}
-      {movies.length > 1 && (
-        <>
-          <button className={styles.hero__prevBtn} onClick={goToPrevious} aria-label="Previous">
-            ‹
-          </button>
-          <button className={styles.hero__nextBtn} onClick={goToNext} aria-label="Next">
-            ›
-          </button>
-
-          {/* Carousel Indicators */}
-          <div className={styles.hero__indicators}>
-            {movies.map((_, index) => (
-              <button
-                key={index}
-                className={`${styles.hero__indicator} ${
-                  index === currentIndex ? styles['hero__indicator--active'] : ''
-                }`}
-                onClick={() => goToSlide(index)}
-                aria-label={`Go to slide ${index + 1}`}
-              />
-            ))}
-          </div>
-        </>
-      )}
     </section>
   )
 }
