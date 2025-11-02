@@ -31,6 +31,17 @@
     }
   }
 
+  &__left {
+    display: flex;
+    align-items: center;
+    gap: $spacing-md;
+    flex: 0 0 auto;
+
+    @include respond-to(tablet) {
+      gap: $spacing-lg;
+    }
+  }
+
   &__logo {
     font-weight: 700;
     font-size: $font-size-lg;
@@ -45,6 +56,117 @@
 
     &:hover {
       opacity: 0.8;
+    }
+  }
+
+  &__search {
+    display: none;
+    position: relative;
+
+    @include respond-to(tablet) {
+      display: block;
+    }
+
+    &__icon {
+      position: absolute;
+      left: $spacing-md;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 16px;
+      height: 16px;
+      color: rgba(255, 255, 255, 0.6);
+      pointer-events: none;
+      transition: color 0.2s ease;
+      z-index: 1;
+
+      @include respond-to(desktop) {
+        width: 18px;
+        height: 18px;
+      }
+    }
+
+    &__input {
+      width: 180px;
+      padding: $spacing-sm $spacing-md $spacing-sm 36px;
+      background-color: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 20px;
+      color: $text-primary;
+      font-size: $font-size-sm;
+      font-family: inherit;
+      transition: all 0.2s ease;
+      outline: none;
+
+      @include respond-to(desktop) {
+        width: 220px;
+        font-size: $font-size-md;
+        padding-left: 40px;
+      }
+
+      &::placeholder {
+        color: rgba(255, 255, 255, 0.5);
+      }
+
+      &:focus {
+        background-color: rgba(255, 255, 255, 0.15);
+        border-color: rgba(255, 255, 255, 0.3);
+        width: 240px;
+
+        @include respond-to(desktop) {
+          width: 280px;
+        }
+      }
+
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.12);
+        border-color: rgba(255, 255, 255, 0.25);
+      }
+    }
+
+    &:has(input:focus) {
+      .header__search__icon {
+        color: rgba(255, 255, 255, 0.8);
+      }
+    }
+
+    &:has(input:hover:not(:focus)) {
+      .header__search__icon {
+        color: rgba(255, 255, 255, 0.7);
+      }
+    }
+
+    &__clear {
+      position: absolute;
+      right: $spacing-md;
+      top: 50%;
+      transform: translateY(-50%);
+      flex-shrink: 0;
+      width: 20px;
+      height: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: rgba(255, 255, 255, 0.1);
+      color: rgba(255, 255, 255, 0.6);
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-size: $font-size-sm;
+      line-height: 1;
+      padding: 0;
+      z-index: 1;
+
+      @include respond-to(desktop) {
+        width: 22px;
+        height: 22px;
+        font-size: $font-size-md;
+      }
+
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+        color: rgba(255, 255, 255, 0.9);
+      }
     }
   }
 

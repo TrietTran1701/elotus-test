@@ -1,0 +1,232 @@
+@use '@/styles/abstracts/variables' as *;
+@use '@/styles/abstracts/mixins' as *;
+
+.page {
+  position: relative;
+  min-height: 100vh;
+  padding-top: 72px;
+  padding-bottom: $spacing-2xl;
+  
+  &__backdrop {
+    position: relative;
+    width: 100%;
+    height: 50vh;
+    overflow: hidden;
+    
+    @include respond-to(tablet) {
+      height: 60vh;
+    }
+    
+    &__image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    &__overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(
+        to bottom,
+        transparent 0%,
+        rgba($background-color, 0.7) 70%,
+        $background-color 100%
+      );
+    }
+  }
+  
+  &__nav {
+    position: relative;
+    z-index: 10;
+    padding: $spacing-lg 0;
+  }
+  
+  &__content {
+    position: relative;
+    z-index: 10;
+    display: grid;
+    gap: $spacing-xl;
+    margin-top: -20vh;
+    
+    @include respond-to(tablet) {
+      grid-template-columns: 300px 1fr;
+      gap: $spacing-2xl;
+      margin-top: -25vh;
+    }
+    
+    @include respond-to(desktop) {
+      grid-template-columns: 350px 1fr;
+    }
+  }
+  
+  &__poster {
+    box-shadow: $shadow-xl;
+    border-radius: $border-radius-lg;
+    overflow: hidden;
+  }
+  
+  &__info {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-lg;
+  }
+  
+  &__title {
+    font-size: $font-size-2xl;
+    font-weight: 700;
+    color: $text-primary;
+    line-height: 1.2;
+    
+    @include respond-to(tablet) {
+      font-size: 3rem;
+    }
+  }
+  
+  &__tagline {
+    font-size: $font-size-lg;
+    color: $text-secondary;
+    font-style: italic;
+  }
+  
+  &__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $spacing-md;
+    
+    &__item {
+      display: flex;
+      align-items: center;
+      gap: $spacing-xs;
+      padding: $spacing-sm $spacing-md;
+      background-color: rgba(255, 255, 255, 0.05);
+      border-radius: $border-radius-md;
+      font-size: $font-size-sm;
+    }
+    
+    &__icon {
+      font-size: $font-size-md;
+    }
+    
+    &__label {
+      color: $text-secondary;
+    }
+  }
+  
+  &__genres {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $spacing-sm;
+  }
+  
+  &__genre {
+    padding: $spacing-sm $spacing-md;
+    background-color: $primary-color;
+    color: $text-primary;
+    border-radius: $border-radius-md;
+    font-size: $font-size-sm;
+    font-weight: 500;
+  }
+  
+  &__section {
+    &__title {
+      font-size: $font-size-xl;
+      font-weight: 600;
+      color: $text-primary;
+      margin-bottom: $spacing-md;
+    }
+  }
+  
+  &__overview {
+    font-size: $font-size-md;
+    line-height: 1.7;
+    color: $text-secondary;
+  }
+  
+  &__details {
+    display: grid;
+    gap: $spacing-md;
+    
+    @include respond-to(tablet) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  &__detail {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: $spacing-md;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: $border-radius-md;
+    
+    &__label {
+      font-size: $font-size-sm;
+      color: $text-secondary;
+    }
+    
+    &__value {
+      font-size: $font-size-md;
+      font-weight: 600;
+      color: $text-primary;
+    }
+  }
+  
+  &__cast {
+    position: relative;
+    z-index: 10;
+    margin-top: $spacing-2xl;
+    
+    &__grid {
+      display: grid;
+      gap: $spacing-lg;
+      grid-template-columns: repeat(3, 1fr);
+      
+      @include respond-to(mobile-lg) {
+        grid-template-columns: repeat(4, 1fr);
+      }
+      
+      @include respond-to(tablet) {
+        grid-template-columns: repeat(5, 1fr);
+      }
+      
+      @include respond-to(desktop) {
+        grid-template-columns: repeat(6, 1fr);
+      }
+      
+      @include respond-to(desktop-lg) {
+        grid-template-columns: repeat(8, 1fr);
+      }
+    }
+  }
+  
+  &__error {
+    @include flex-center;
+    min-height: 60vh;
+  }
+
+  &__search {
+    margin-bottom: $spacing-xl;
+    
+    &__info {
+      padding: $spacing-lg 0;
+      text-align: left;
+      color: $text-primary;
+      font-size: $font-size-md;
+      font-weight: 500;
+      
+      @include respond-to(tablet) {
+        padding: $spacing-xl 0;
+        font-size: $font-size-lg;
+      }
+      
+      p {
+        margin: 0;
+        line-height: 1.5;
+      }
+    }
+  }
+}
+

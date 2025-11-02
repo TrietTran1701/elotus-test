@@ -1,0 +1,81 @@
+@use '@/styles/abstracts/variables' as *;
+@use '@/styles/abstracts/mixins' as *;
+
+.searchbar {
+  width: 100%;
+  
+  &__wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: $spacing-md;
+    padding: $spacing-sm $spacing-md;
+    background-color: $surface-color;
+    border: 2px solid transparent;
+    border-radius: $border-radius-lg;
+    transition: all $transition-fast;
+    
+    &:hover {
+      border-color: rgba(255, 255, 255, 0.1);
+    }
+    
+    &--focused {
+      border-color: $primary-color;
+      background-color: lighten($surface-color, 3%);
+    }
+  }
+  
+  &__icon {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    color: $text-secondary;
+    transition: color $transition-fast;
+    
+    .searchbar__wrapper--focused & {
+      color: $primary-color;
+    }
+  }
+  
+  &__input {
+    :global {
+      .input {
+        padding: $spacing-sm 0;
+        background-color: transparent !important;
+        border: none !important;
+        
+        &:focus {
+          outline: none;
+          box-shadow: none;
+        }
+      }
+      
+      .input__wrapper {
+        width: 100%;
+      }
+    }
+  }
+  
+  &__clear {
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: $text-secondary;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all $transition-fast;
+    font-size: $font-size-lg;
+    line-height: 1;
+    
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+      color: $text-primary;
+    }
+  }
+}
+

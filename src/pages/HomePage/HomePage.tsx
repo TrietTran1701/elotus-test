@@ -4,12 +4,12 @@ import { Container } from '@/components/layout/Container'
 import { Hero } from '@/components/features/Hero'
 import { MovieGrid } from '@/components/features/MovieGrid'
 import { ErrorMessage } from '@/components/common'
-import { useMovies } from '@/hooks/useMovies'
+import { useMovies } from '@/hooks'
 import { MovieCategory, ViewMode } from '@/types'
 import styles from './HomePage.module.scss'
 
 export const HomePage = () => {
-  const [searchParams, setSearchParams] = useSearchParams()
+  const [searchParams] = useSearchParams()
   const [viewMode] = useState<ViewMode>(ViewMode.GRID)
 
   // Get category from URL params or default to NOW_PLAYING
@@ -41,6 +41,7 @@ export const HomePage = () => {
     ? heroMovies.slice(0, 5).filter(movie => movie.backdrop_path) 
     : []
 
+  // Only show regular movies (no search results on HomePage)
   if (error) {
     return (
       <Container>

@@ -10,6 +10,11 @@ export const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const location = useLocation()
   const navigate = useNavigate()
+  
+  // Get search query from URL params
+  const searchParams = new URLSearchParams(location.search)
+  const searchQueryFromUrl = searchParams.get('search') || ''
+  const [searchQuery, setSearchQuery] = useState(searchQueryFromUrl)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -27,6 +32,15 @@ export const Header = () => {
   useEffect(() => {
     setIsMobileMenuOpen(false)
   }, [location])
+
+  // Sync search query with URL params
+  useEffect(() => {
+    const params = new URLSearchParams(location.search)
+    const urlSearchQuery = params.get('search') || ''
+    if (urlSearchQuery !== searchQuery) {
+      setSearchQuery(urlSearchQuery)
+    }
+  }, [location.search])
 
   // Prevent body scroll when mobile menu is open
   useEffect(() => {
@@ -60,15 +74,109 @@ export const Header = () => {
     setIsMobileMenuOpen((prev) => !prev)
   }
 
+  const handleSearchSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    // Search is handled via URL params, no need to navigate on submit
+  }
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value
+    setSearchQuery(value)
+    
+    // Update URL params in real-time
+    const params = new URLSearchParams(location.search)
+    const category = params.get('category')
+    
+    if (value.trim()) {
+      // Navigate to a movie detail page with search query
+      // Use a default movie ID (0) or current movie ID if on detail page
+      const currentPath = location.pathname
+      const movieIdMatch = currentPath.match(/\/movie\/(\d+)/)
+      const movieId = movieIdMatch ? movieIdMatch[1] : '0'
+      navigate(`/movie/${movieId}?search=${encodeURIComponent(value.trim())}`)
+    } else {
+      // Remove search param
+      const currentPath = location.pathname
+      const movieIdMatch = currentPath.match(/\/movie\/(\d+)/)
+      if (movieIdMatch) {
+        navigate(`/movie/${movieIdMatch[1]}`)
+      } else {
+        const category = params.get('category')
+        if (category) {
+          navigate(`${ROUTES.HOME}?category=${category}`)
+        } else {
+          navigate(ROUTES.HOME)
+        }
+      }
+    }
+  }
+  
+  const handleSearchClear = () => {
+    setSearchQuery('')
+    const currentPath = location.pathname
+    const movieIdMatch = currentPath.match(/\/movie\/(\d+)/)
+    
+    if (movieIdMatch) {
+      // If on movie detail page, remove search but stay on the page
+      navigate(`/movie/${movieIdMatch[1]}`, { replace: true })
+    } else {
+      // Otherwise navigate to home
+      const params = new URLSearchParams(location.search)
+      const category = params.get('category')
+      if (category) {
+        navigate(`${ROUTES.HOME}?category=${category}`)
+      } else {
+        navigate(ROUTES.HOME)
+      }
+    }
+  }
+
   const activeCategory = getActiveCategory()
 
   return (
     <>
       <header className={`${styles.header} ${isScrolled ? styles.scrolled : ''}`}>
         <div className={styles.header__container}>
-          <Link to={ROUTES.HOME} className={styles.header__logo}>
-            {APP_CONFIG.TITLE}
-          </Link>
+          <div className={styles.header__left}>
+            <Link to={ROUTES.HOME} className={styles.header__logo}>
+              {APP_CONFIG.TITLE}
+            </Link>
+            
+            <form className={styles.header__search} onSubmit={handleSearchSubmit}>
+              <svg
+                className={styles.header__search__icon}
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden="true"
+              >
+                <circle cx="11" cy="11" r="8" />
+                <path d="m21 21-4.35-4.35" />
+              </svg>
+              <input
+                type="text"
+                placeholder="Search movies..."
+                value={searchQuery}
+                onChange={handleSearchChange}
+                className={styles.header__search__input}
+                aria-label="Search movies"
+              />
+              {searchQuery && (
+                <button
+                  type="button"
+                  onClick={handleSearchClear}
+                  className={styles.header__search__clear}
+                  aria-label="Clear search"
+                >
+                  ✕
+                </button>
+              )}
+            </form>
+          </div>
 
           <nav className={styles.header__nav}>
             {MOVIE_CATEGORIES.map((category) => (

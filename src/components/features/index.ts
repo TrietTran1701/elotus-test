@@ -10,3 +10,9 @@ export type { MovieListProps } from './MovieList'
 export { Hero } from './Hero'
 export type { HeroProps } from './Hero'
 
+export { SearchBar } from './SearchBar'
+export type { SearchBarProps } from './SearchBar'
+
+export { CastMember } from './CastMember'
+export type { CastMemberProps } from './CastMember'
+

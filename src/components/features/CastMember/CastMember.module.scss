@@ -1,0 +1,36 @@
+@use '@/styles/abstracts/variables' as *;
+@use '@/styles/abstracts/mixins' as *;
+
+.cast {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+  
+  &__photo {
+    border-radius: $border-radius-md;
+    overflow: hidden;
+    box-shadow: $shadow-md;
+  }
+  
+  &__info {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-xs;
+  }
+  
+  &__name {
+    font-size: $font-size-sm;
+    font-weight: 600;
+    color: $text-primary;
+    
+    @include line-clamp(2);
+  }
+  
+  &__character {
+    font-size: $font-size-xs;
+    color: $text-secondary;
+    
+    @include line-clamp(2);
+  }
+}
+

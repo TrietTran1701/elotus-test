@@ -10,6 +10,18 @@
     margin-top: 0;
   }
   
+  &__search {
+    &__info {
+      padding: $spacing-md 0 $spacing-lg;
+      text-align: center;
+      color: $text-secondary;
+      font-size: $font-size-sm;
+      
+      @include respond-to(tablet) {
+        padding: $spacing-md 0 $spacing-xl;
+      }
+    }
+  }
   
   &__content {
     padding: $spacing-xl 0;

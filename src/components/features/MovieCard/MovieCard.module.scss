@@ -6,6 +6,7 @@
   flex-direction: column;
   cursor: pointer;
   transition: transform $transition-base;
+  width: 100%;
   
   @include focus-visible;
   
@@ -27,6 +28,7 @@
     overflow: hidden;
     box-shadow: $shadow-md;
     transition: box-shadow $transition-base;
+    width: 100%;
   }
   
   &__rating {
@@ -37,26 +39,31 @@
     align-items: center;
     gap: $spacing-xs;
     padding: $spacing-xs $spacing-sm;
-    background-color: rgba($background-color, 0.9);
+    background-color: rgba($background-color, 0.95);
     border-radius: $border-radius-sm;
-    font-size: $font-size-sm;
+    font-size: $font-size-xs;
     font-weight: 600;
     backdrop-filter: blur(8px);
+    z-index: 2;
+    max-width: calc(100% - #{$spacing-md});
     
     &__icon {
       font-size: $font-size-xs;
+      line-height: 1;
     }
     
     &__value {
       color: $text-primary;
+      white-space: nowrap;
     }
   }
   
   &__content {
     display: flex;
     flex-direction: column;
-    gap: $spacing-xs;
+    gap: $spacing-sm;
     padding-top: $spacing-md;
+    padding-bottom: $spacing-xs;
   }
   
   &__title {
@@ -64,8 +71,15 @@
     font-weight: 600;
     color: $text-primary;
     transition: color $transition-fast;
+    min-height: 2.8em;
+    line-height: 1.4;
     
     @include line-clamp(2);
+    
+    @include respond-to(tablet) {
+      font-size: $font-size-lg;
+      min-height: 3em;
+    }
   }
   
   &__year {
