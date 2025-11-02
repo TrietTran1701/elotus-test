@@ -1,0 +1,46 @@
+@use '@/styles/abstracts/variables' as *;
+@use '@/styles/abstracts/mixins' as *;
+
+.tabBar {
+  display: flex;
+  gap: $spacing-md;
+  margin: $spacing-xl 0;
+
+  &__tab {
+    background: none;
+    border: none;
+    color: $text-secondary;
+    font-size: $font-size-md;
+    font-weight: 600;
+    cursor: pointer;
+    padding: $spacing-sm $spacing-lg;
+    position: relative;
+    transition: color $transition-fast;
+    font-family: inherit;
+
+    @include respond-to(tablet) {
+      font-size: $font-size-lg;
+      padding: $spacing-md $spacing-xl;
+    }
+
+    &:hover {
+      color: $text-primary;
+    }
+
+    &--active {
+      color: $text-primary;
+
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: $primary-color;
+        border-radius: $border-radius-sm $border-radius-sm 0 0;
+      }
+    }
+  }
+}
+

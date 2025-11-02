@@ -9,7 +9,7 @@ export const APP_CONFIG = {
 export const MOVIE_CATEGORIES = [
   {
     id: MovieCategory.NOW_PLAYING,
-    label: 'Now Playing',
+    label: 'Now playing',
     value: MovieCategory.NOW_PLAYING,
   },
   // {
@@ -19,7 +19,7 @@ export const MOVIE_CATEGORIES = [
   // },
   {
     id: MovieCategory.TOP_RATED,
-    label: 'Top Rated',
+    label: 'Top rated',
     value: MovieCategory.TOP_RATED,
   },
   {

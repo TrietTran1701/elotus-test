@@ -1,21 +1,26 @@
 import { useState, useEffect } from 'react'
-import { useSearchParams } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { Container } from '@/components/layout/Container'
+import { TabBar } from '@/components/layout/TabBar'
 import { Hero } from '@/components/features/Hero'
 import { MovieGrid } from '@/components/features/MovieGrid'
 import { ErrorMessage, ScrollToTop, PageTransition } from '@/components/common'
 import { useMovies } from '@/hooks'
-import { MovieCategory, ViewMode } from '@/types'
+import { MovieCategory } from '@/types'
+import { ROUTES } from '@/constants/routes.constants'
 import styles from './HomePage.module.scss'
 
 export const HomePage = () => {
+  const navigate = useNavigate()
   const [searchParams] = useSearchParams()
-  const [viewMode] = useState<ViewMode>(ViewMode.GRID)
 
   // Get category from URL params or default to NOW_PLAYING
   const getCategoryFromParams = (params: URLSearchParams): MovieCategory => {
     const categoryParam = params.get('category') as MovieCategory
-    if (categoryParam && Object.values(MovieCategory).includes(categoryParam)) {
+    if (
+      categoryParam === MovieCategory.NOW_PLAYING ||
+      categoryParam === MovieCategory.TOP_RATED
+    ) {
       return categoryParam
     }
     return MovieCategory.NOW_PLAYING
@@ -31,14 +36,32 @@ export const HomePage = () => {
     setActiveTab(category)
   }, [searchParams])
 
+  // Handle tab change
+  const handleTabChange = (category: MovieCategory) => {
+    setActiveTab(category)
+    navigate(`${ROUTES.HOME}?category=${category}`)
+  }
+
   // Get popular movies for Hero section (always show Hero with popular movies)
   const { movies: heroMovies } = useMovies(MovieCategory.POPULAR)
-  const { movies, loading, error, hasMore, loadMore, refetch } = useMovies(activeTab)
+
+  // Fetch movies for the active tab (Now Playing or Top Rated)
+  const { movies: activeTabMovies, loading, error, hasMore, loadMore, refetch } = useMovies(activeTab)
+
+  // Fetch movies for Upcoming category (shown in list/grid style below)
+  const {
+    movies: upcomingMovies,
+    loading: upcomingLoading,
+    error: upcomingError,
+    hasMore: upcomingHasMore,
+    loadMore: upcomingLoadMore,
+    refetch: upcomingRefetch,
+  } = useMovies(MovieCategory.UPCOMING)
 
   // Get top 5 movies with backdrop images for Hero
   const heroTopMovies = heroMovies.slice(0, 5).filter(movie => movie.backdrop_path)
 
-  // Only show regular movies (no search results on HomePage)
+  // Show error state
   if (error) {
     return (
       <Container>
@@ -56,11 +79,38 @@ export const HomePage = () => {
         
         <Container>
           <main id="main-content">
-            <div className={`${styles.page__content} ${heroTopMovies.length > 0 ? styles['page__content--with-hero'] : ''}`}>
-              {viewMode === ViewMode.GRID ? (
-                <MovieGrid movies={movies} loading={loading} hasMore={hasMore} onLoadMore={loadMore} />
+            {/* Tab Bar */}
+            <TabBar activeTab={activeTab} onTabChange={handleTabChange} />
+
+            {/* Movies Grid for Active Tab */}
+            <div className={styles.page__content}>
+              <MovieGrid
+                movies={activeTabMovies}
+                loading={loading}
+                hasMore={hasMore}
+                onLoadMore={loadMore}
+              />
+            </div>
+
+            {/* Upcoming Movies Section */}
+            <div className={styles.page__upcoming}>
+              <h2 className={styles.page__upcoming__title}>Upcoming</h2>
+              {upcomingError ? (
+                <div className={styles.page__upcoming__error}>
+                  <ErrorMessage
+                    message={upcomingError.message}
+                    onRetry={upcomingRefetch}
+                  />
+                </div>
               ) : (
-                <MovieGrid movies={movies} loading={loading} hasMore={hasMore} onLoadMore={loadMore} />
+                <div className={styles.page__content}>
+                  <MovieGrid
+                    movies={upcomingMovies}
+                    loading={upcomingLoading}
+                    hasMore={upcomingHasMore}
+                    onLoadMore={upcomingLoadMore}
+                  />
+                </div>
               )}
             </div>
           </main>
