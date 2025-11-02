@@ -16,3 +16,6 @@ export type { SearchBarProps } from './SearchBar'
 export { CastMember } from './CastMember'
 export type { CastMemberProps } from './CastMember'
 
+export { MovieCarousel } from './MovieCarousel'
+export type { MovieCarouselProps } from './MovieCarousel'
+

@@ -3,6 +3,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom'
 import { Container } from '@/components/layout/Container'
 import { TabBar } from '@/components/layout/TabBar'
 import { Hero } from '@/components/features/Hero'
+import { MovieCarousel } from '@/components/features/MovieCarousel'
 import { MovieGrid } from '@/components/features/MovieGrid'
 import { ErrorMessage, ScrollToTop, PageTransition } from '@/components/common'
 import { useMovies } from '@/hooks'
@@ -46,7 +47,7 @@ export const HomePage = () => {
   const { movies: heroMovies } = useMovies(MovieCategory.POPULAR)
 
   // Fetch movies for the active tab (Now Playing or Top Rated)
-  const { movies: activeTabMovies, loading, error, hasMore, loadMore, refetch } = useMovies(activeTab)
+  const { movies: activeTabMovies, loading, error, refetch } = useMovies(activeTab)
 
   // Fetch movies for Upcoming category (shown in list/grid style below)
   const {
@@ -82,15 +83,12 @@ export const HomePage = () => {
             {/* Tab Bar */}
             <TabBar activeTab={activeTab} onTabChange={handleTabChange} />
 
-            {/* Movies Grid for Active Tab */}
-            <div className={styles.page__content}>
-              <MovieGrid
-                movies={activeTabMovies}
-                loading={loading}
-                hasMore={hasMore}
-                onLoadMore={loadMore}
-              />
-            </div>
+            {/* Movie Carousel for Active Tab */}
+            <MovieCarousel
+              title={activeTab === MovieCategory.NOW_PLAYING ? 'Now Playing' : 'Top Rated'}
+              movies={activeTabMovies}
+              loading={loading}
+            />
 
             {/* Upcoming Movies Section */}
             <div className={styles.page__upcoming}>

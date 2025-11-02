@@ -1,0 +1,239 @@
+@use '@/styles/abstracts/variables' as *;
+@use '@/styles/abstracts/mixins' as *;
+
+.carousel {
+  padding: $spacing-2xl 0;
+  width: 100%;
+  overflow: hidden;
+
+  @include respond-to(tablet) {
+    padding: $spacing-2xl 4%;
+  }
+
+  @include respond-to(mobile-lg) {
+    padding: $spacing-xl 2%;
+  }
+
+  &__header {
+    margin-bottom: $spacing-lg;
+    padding: 0 4%;
+
+    @include respond-to(mobile-lg) {
+      padding: 0 2%;
+    }
+  }
+
+  &__title {
+    font-size: $font-size-2xl;
+    font-weight: 700;
+    color: $text-primary;
+    letter-spacing: -0.5px;
+    margin: 0;
+
+    @include respond-to(desktop-lg) {
+      font-size: 2rem;
+    }
+
+    @include respond-to(tablet) {
+      font-size: $font-size-xl;
+    }
+
+    @include respond-to(mobile-lg) {
+      font-size: $font-size-lg;
+    }
+  }
+
+  &__loading {
+    @include flex-center;
+    padding: $spacing-2xl;
+    color: $text-secondary;
+    font-size: $font-size-md;
+  }
+
+  &__wrapper {
+    position: relative;
+    padding: 0;
+  }
+
+  &__navButton {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    background: rgba(0, 0, 0, 0.3);
+    border: none;
+    border-radius: 50%;
+    color: $text-primary;
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all $transition-base;
+    backdrop-filter: blur(5px);
+
+    @include respond-to(tablet) {
+      width: 40px;
+      height: 40px;
+    }
+
+    @include respond-to(mobile-lg) {
+      width: 35px;
+      height: 35px;
+    }
+
+    &:hover {
+      background: rgba(0, 0, 0, 0.5);
+      transform: translateY(-50%) scale(1.1);
+    }
+
+    &:active {
+      transform: translateY(-50%) scale(0.95);
+    }
+
+    svg {
+      width: 24px;
+      height: 24px;
+
+      @include respond-to(tablet) {
+        width: 20px;
+        height: 20px;
+      }
+
+      @include respond-to(mobile-lg) {
+        width: 18px;
+        height: 18px;
+      }
+    }
+
+    &--left {
+      left: 10px;
+
+      @include respond-to(tablet) {
+        left: 8px;
+      }
+
+      @include respond-to(mobile-lg) {
+        left: 5px;
+      }
+    }
+
+    &--right {
+      right: 10px;
+
+      @include respond-to(tablet) {
+        right: 8px;
+      }
+
+      @include respond-to(mobile-lg) {
+        right: 5px;
+      }
+    }
+  }
+
+  &__track {
+    overflow: hidden;
+  }
+
+  &__inner {
+    display: flex;
+    transition: transform 0.6s cubic-bezier(0.645, 0.045, 0.355, 1);
+    will-change: transform;
+  }
+
+  &__card {
+    padding: $spacing-sm;
+    flex-shrink: 0;
+    cursor: pointer;
+
+    @include respond-to(mobile-lg) {
+      padding: 6px;
+    }
+  }
+
+  &__cardInner {
+    position: relative;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    cursor: pointer;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__card:hover &__cardInner {
+    transform: translateY(-12px) scale(1.05);
+    z-index: 5;
+  }
+
+  &__poster {
+    position: relative;
+    border-radius: $border-radius-lg;
+    overflow: hidden;
+    box-shadow: $shadow-xl;
+    transition: all $transition-base;
+    aspect-ratio: 2/3;
+  }
+
+  &__card:hover &__poster {
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.8);
+  }
+
+  &__info {
+    padding: $spacing-md $spacing-sm 0;
+    flex: 1;
+  }
+
+  &__movieTitle {
+    font-size: $font-size-lg;
+    font-weight: 700;
+    margin-bottom: $spacing-xs;
+    color: $text-primary;
+    line-height: 1.3;
+
+    @include line-clamp(2);
+
+    @include respond-to(mobile-lg) {
+      font-size: $font-size-md;
+    }
+  }
+
+  &__movieSubtitle {
+    font-size: $font-size-sm;
+    color: $text-secondary;
+    margin-bottom: $spacing-md;
+    line-height: 1.4;
+
+    @include line-clamp(1);
+
+    @include respond-to(mobile-lg) {
+      font-size: $font-size-xs;
+    }
+  }
+
+  &__movieMeta {
+    display: flex;
+    gap: $spacing-sm;
+    flex-wrap: wrap;
+  }
+
+  &__badge {
+    padding: 4px 10px;
+    border-radius: $border-radius-sm;
+    font-size: $font-size-xs;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    white-space: nowrap;
+
+    &--primary {
+      background: rgba($text-secondary, 0.2);
+      color: $text-primary;
+    }
+
+    &--secondary {
+      background: rgba(22, 163, 74, 0.8);
+      color: $text-primary;
+    }
+  }
+}
+
