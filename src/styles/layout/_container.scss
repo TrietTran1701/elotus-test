@@ -1,1 +1,35 @@
-// Container styles
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
+
+.container {
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 $spacing-md;
+
+  @include respond-to(tablet) {
+    padding: 0 $spacing-lg;
+  }
+
+  @include respond-to(desktop) {
+    max-width: 1280px;
+    padding: 0 $spacing-xl;
+  }
+
+  @include respond-to(desktop-lg) {
+    max-width: 1440px;
+  }
+
+  @include respond-to(desktop-xl) {
+    max-width: 1920px;
+  }
+
+  &--fluid {
+    max-width: 100%;
+  }
+
+  &--narrow {
+    @include respond-to(desktop) {
+      max-width: 960px;
+    }
+  }
+}

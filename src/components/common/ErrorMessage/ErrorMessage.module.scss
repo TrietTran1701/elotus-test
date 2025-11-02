@@ -1,0 +1,32 @@
+@use '@/styles/abstracts/variables' as *;
+@use '@/styles/abstracts/mixins' as *;
+
+.error {
+  &__container {
+    @include flex-center;
+    @include flex-column;
+    gap: $spacing-md;
+    padding: $spacing-xl;
+    text-align: center;
+
+    &--fullscreen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: $background-color;
+      z-index: $z-index-modal;
+    }
+  }
+
+  &__icon {
+    font-size: 48px;
+  }
+
+  &__message {
+    color: $text-secondary;
+    font-size: $font-size-md;
+    max-width: 400px;
+  }
+}

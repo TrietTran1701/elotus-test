@@ -1,0 +1,49 @@
+@use '@/styles/abstracts/variables' as *;
+@use '@/styles/abstracts/mixins' as *;
+
+.image {
+  &__container {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    background-color: $surface-color;
+    border-radius: $border-radius-md;
+  }
+  
+  &__placeholder {
+    @include flex-center;
+    @include absolute-center;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      $surface-color 0%,
+      lighten($surface-color, 5%) 50%,
+      $surface-color 100%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    
+    span {
+      font-size: 48px;
+      opacity: 0.3;
+    }
+  }
+
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: opacity $transition-slow;
+  
+  &--loading {
+    opacity: 0;
+  }
+  
+  &--loaded {
+    opacity: 1;
+    animation: fadeIn $transition-slow;
+  }
+}

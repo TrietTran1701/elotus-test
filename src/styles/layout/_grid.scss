@@ -1,1 +1,55 @@
-// Grid layout utilities
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
+
+.grid {
+  display: grid;
+  gap: $spacing-md;
+
+  &--cols-2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  &--cols-3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  &--cols-4 {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  &--cols-5 {
+    grid-template-columns: repeat(5, 1fr);
+  }
+
+  &--cols-6 {
+    grid-template-columns: repeat(6, 1fr);
+  }
+
+  // Responsive grid
+  &--responsive {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
+}
+
+// Mobile-first responsive grid
+.responsive-grid {
+  display: grid;
+  gap: $spacing-md;
+  grid-template-columns: repeat(2, 1fr);
+
+  @include respond-to(tablet) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @include respond-to(desktop) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  @include respond-to(desktop-lg) {
+    grid-template-columns: repeat(5, 1fr);
+  }
+
+  @include respond-to(desktop-xl) {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}

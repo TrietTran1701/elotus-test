@@ -21,7 +21,15 @@ export default defineConfig({
   css: {
     preprocessorOptions: {
       scss: {
-        additionalData: `@import "src/styles/abstracts/variables"; @import "src/styles/abstracts/mixins";`
+        additionalData: (content: string, loaderContext?: { resourcePath?: string }) => {
+          // Don't inject into main.scss since it already imports these
+          const resourcePath = loaderContext?.resourcePath
+          if (resourcePath && resourcePath.endsWith('main.scss')) {
+            return content
+          }
+          return `@use "@/styles/abstracts/variables" as *;\n@use "@/styles/abstracts/mixins" as *;\n${content}`
+        },
+        loadPaths: [path.resolve(__dirname, './src')]
       }
     }
   },
