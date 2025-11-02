@@ -58,5 +58,20 @@
     @include flex-center;
     min-height: 60vh;
   }
+
+  &__loading {
+    @include flex-center;
+    padding: $spacing-2xl 0;
+    color: $text-secondary;
+    
+    p {
+      margin: 0;
+      font-size: $font-size-md;
+      
+      @include respond-to(tablet) {
+        font-size: $font-size-lg;
+      }
+    }
+  }
 }
 

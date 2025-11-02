@@ -280,11 +280,55 @@
       }
     }
 
+    .card__descriptionWrapper {
+      position: relative;
+      margin: 0 0 $spacing-md 0;
+
+      &[data-tooltip] {
+        &:hover::after {
+          content: attr(data-tooltip);
+          position: absolute;
+          bottom: calc(100% + #{$spacing-sm});
+          left: 0;
+          background: rgba($background-color, 0.98);
+          color: $text-primary;
+          padding: $spacing-md;
+          border-radius: $border-radius-md;
+          font-size: $font-size-sm;
+          line-height: 1.6;
+          box-shadow: $shadow-xl;
+          z-index: $z-index-tooltip;
+          pointer-events: none;
+          white-space: normal;
+          word-wrap: break-word;
+          max-width: min(400px, calc(100vw - #{$spacing-xl} * 2));
+          width: 100%;
+          min-width: 200px;
+          border: 1px solid rgba($text-secondary, 0.2);
+          opacity: 0;
+          animation: tooltipFadeIn 0.2s ease-in-out forwards;
+
+          @include respond-to(tablet) {
+            font-size: $font-size-md;
+            max-width: min(500px, calc(100vw - #{$spacing-xl} * 2));
+            padding: $spacing-lg;
+          }
+
+          // Prevent tooltip from going off-screen on mobile
+          @media (max-width: 767px) {
+            max-width: calc(100vw - #{$spacing-xl} * 2);
+            width: calc(100vw - #{$spacing-xl} * 2);
+            min-width: auto;
+          }
+        }
+      }
+    }
+
     .card__description {
       line-height: 1.6;
       font-size: $font-size-sm;
       color: $text-secondary;
-      margin: 0 0 $spacing-md 0;
+      margin: 0;
       display: -webkit-box;
       -webkit-line-clamp: 3;
       line-clamp: 3;
@@ -355,6 +399,18 @@
     &:nth-child(#{$i}) {
       animation-delay: #{$i * 0.05}s;
     }
+  }
+}
+
+// Tooltip animation
+@keyframes tooltipFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 

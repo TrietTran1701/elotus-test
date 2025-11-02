@@ -18,7 +18,9 @@ export const MovieCard = ({ movie, variant = 'grid' }: MovieCardProps) => {
   const posterUrl = moviesService.getPosterURL(movie, IMAGE_SIZES.POSTER.MEDIUM)
   const year = formatYear(movie.release_date)
   const rating = formatRating(movie.vote_average)
-  const description = variant === 'list' ? truncateText(movie.overview, 150) : null
+  const truncatedDescription = variant === 'list' ? truncateText(movie.overview, 150) : null
+  const fullDescription = variant === 'list' ? movie.overview : null
+  const isDescriptionTruncated = variant === 'list' && fullDescription && truncatedDescription && fullDescription.length > truncatedDescription.length
 
   const handleClick = () => {
     navigate(buildMovieDetailRoute(movie.id))
@@ -69,8 +71,13 @@ export const MovieCard = ({ movie, variant = 'grid' }: MovieCardProps) => {
               <span className={styles.card__tag}>{year}</span>
             </div>
             
-            {description && (
-              <p className={styles.card__description}>{description}</p>
+            {truncatedDescription && (
+              <div 
+                className={styles.card__descriptionWrapper}
+                data-tooltip={isDescriptionTruncated ? fullDescription : undefined}
+              >
+                <p className={styles.card__description}>{truncatedDescription}</p>
+              </div>
             )}
             
             <button className={styles.card__watchBtn} onClick={handleWatchNow}>

@@ -10,9 +10,10 @@ export interface MovieGridProps {
   loading: LoadingState
   hasMore: boolean
   onLoadMore: () => void
+  hideLoadMore?: boolean
 }
 
-export const MovieGrid = ({ movies, loading, hasMore, onLoadMore }: MovieGridProps) => {
+export const MovieGrid = ({ movies, loading, hasMore, onLoadMore, hideLoadMore = false }: MovieGridProps) => {
   const isInitialLoading = loading === 'loading' && movies.length === 0
 
   if (isInitialLoading) {
@@ -33,7 +34,7 @@ export const MovieGrid = ({ movies, loading, hasMore, onLoadMore }: MovieGridPro
         ))}
       </div>
 
-      {hasMore && (
+      {hasMore && !hideLoadMore && (
         <div className={styles.container__actions}>
           <Button onClick={onLoadMore} loading={loading === 'loading'} size="large">
             Load More

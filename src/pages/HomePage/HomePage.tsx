@@ -100,11 +100,13 @@ export const HomePage = () => {
                   aria-label="View more upcoming movies"
                   onClick={() => navigate(ROUTES.UPCOMING)}
                 >
-                  <span className={styles.page__upcoming__viewMore__text}>View more</span>
-                  <ChevronRight
-                    className={styles.page__upcoming__viewMore__icon}
-                    aria-hidden="true"
-                  />
+                  <div className={styles.page__upcoming__viewMore__content}>
+                    <span className={styles.page__upcoming__viewMore__text}>View more</span>
+                    <ChevronRight
+                      className={styles.page__upcoming__viewMore__icon}
+                      aria-hidden="true"
+                    />
+                  </div>
                 </button>
               </div>
               {upcomingError ? (

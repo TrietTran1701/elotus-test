@@ -63,67 +63,79 @@
     }
 
     &__viewMore {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: $spacing-sm;
-      width: 20px;
-      height: 20px;
-      padding: 0;
+      position: relative;
+      width: 32px;
+      height: 32px;
       border: 1px solid rgba($text-secondary, 0.3);
+      border-radius: 50%;
       background: rgba($surface-color, 0.8);
       color: $text-primary;
-      border-radius: 50%;
       cursor: pointer;
-      transition: all $transition-base;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       overflow: hidden;
-      white-space: nowrap;
-      position: relative;
-      font-family: inherit;
-      font-size: $font-size-sm;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+      padding: 0;
 
       @include focus-visible;
 
+      &__content {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: $spacing-sm;
+        white-space: nowrap;
+        width: 100%;
+        position: relative;
+      }
+
       &__text {
+        font-size: $font-size-sm;
+        font-weight: 600;
+        color: $text-primary;
         opacity: 0;
-        width: 0;
-        transform: translateX(-10px);
-        transition: opacity $transition-base, width $transition-base,
-          transform $transition-base;
-        pointer-events: none;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        position: absolute;
+        left: $spacing-md;
+        top: 50%;
+        transform: translateY(-50%) translateX(-10px);
+        white-space: nowrap;
       }
 
       &__icon {
         width: 14px;
         height: 14px;
         flex-shrink: 0;
-        transition: transform $transition-base;
-        display: block;
-        margin: 0 auto;
-        transform: translateX(-2px);
+        transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        color: $text-primary;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
       }
 
       &:hover,
       &:focus-visible {
-        width: auto;
-        min-width: 100px;
-        padding: 0 $spacing-md;
-        border-radius: 9999px;
+        width: 130px;
+        border-radius: 30px;
         border-color: rgba($primary-color, 0.5);
         background: rgba($primary-color, 0.1);
+        box-shadow: 0 6px 30px rgba(0, 0, 0, 0.25);
       }
 
       &:hover &__text,
       &:focus-visible &__text {
         opacity: 1;
-        width: auto;
-        transform: translateX(0);
-        pointer-events: auto;
+        transform: translateY(-50%) translateX(0);
       }
 
       &:hover &__icon,
       &:focus-visible &__icon {
-        transform: translateX(0);
+        left: auto;
+        right: $spacing-md;
+        transform: translateY(-50%) translateX(3px);
       }
 
       &:active {
@@ -131,19 +143,21 @@
       }
 
       @include respond-to(tablet) {
-        width: 36px;
-        height: 36px;
+        width: 40px;
+        height: 40px;
+
+        &__text {
+          font-size: $font-size-md;
+        }
 
         &__icon {
           width: 16px;
           height: 16px;
-          transform: translateX(-2px);
         }
 
         &:hover,
         &:focus-visible {
-          min-width: 110px;
-          padding: 0 $spacing-lg;
+          width: 160px;
         }
       }
     }

@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useState, useEffect, useCallback } from 'react'
+import { useLocation } from 'react-router-dom'
 import { Container } from '@/components/layout/Container'
 import { MovieGrid } from '@/components/features/MovieGrid'
 import { MovieList } from '@/components/features/MovieList'
@@ -9,6 +10,12 @@ import styles from './UpcomingMoviesPage.module.scss'
 
 export const UpcomingMoviesPage = () => {
   const [viewMode, setViewMode] = useState<ViewMode>('grid')
+  const location = useLocation()
+
+  // Scroll to top when page loads or route changes
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'instant' })
+  }, [location.pathname])
   
   const {
     movies: upcomingMovies,
@@ -18,6 +25,29 @@ export const UpcomingMoviesPage = () => {
     loadMore,
     refetch,
   } = useMovies(MovieCategory.UPCOMING)
+
+  // Infinite scroll: load more when scrolling near the bottom
+  const handleScroll = useCallback(() => {
+    // Check if we're near the bottom (within 200px)
+    const scrollPosition = window.innerHeight + window.scrollY
+    const documentHeight = document.documentElement.scrollHeight
+    const threshold = 200
+
+    if (
+      scrollPosition >= documentHeight - threshold &&
+      hasMore &&
+      loading !== 'loading'
+    ) {
+      loadMore()
+    }
+  }, [hasMore, loading, loadMore])
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+    }
+  }, [handleScroll])
 
   return (
     <PageTransition>
@@ -44,15 +74,22 @@ export const UpcomingMoviesPage = () => {
                     movies={upcomingMovies}
                     loading={loading}
                     hasMore={hasMore}
-                    onLoadMore={loadMore}
+                    onLoadMore={() => {}} // Empty function, infinite scroll handles loading
+                    hideLoadMore={true}
                   />
                 ) : (
                   <MovieList
                     movies={upcomingMovies}
                     loading={loading}
                     hasMore={hasMore}
-                    onLoadMore={loadMore}
+                    onLoadMore={() => {}} // Empty function, infinite scroll handles loading
+                    hideLoadMore={true}
                   />
+                )}
+                {loading === 'loading' && upcomingMovies.length > 0 && (
+                  <div className={styles.page__loading}>
+                    <p>Loading more movies...</p>
+                  </div>
                 )}
               </div>
             )}

@@ -10,9 +10,10 @@ export interface MovieListProps {
   loading: LoadingState
   hasMore: boolean
   onLoadMore: () => void
+  hideLoadMore?: boolean
 }
 
-export const MovieList = ({ movies, loading, hasMore, onLoadMore }: MovieListProps) => {
+export const MovieList = ({ movies, loading, hasMore, onLoadMore, hideLoadMore = false }: MovieListProps) => {
   const isInitialLoading = loading === 'loading' && movies.length === 0
 
   if (isInitialLoading) {
@@ -33,7 +34,7 @@ export const MovieList = ({ movies, loading, hasMore, onLoadMore }: MovieListPro
         ))}
       </div>
 
-      {hasMore && (
+      {hasMore && !hideLoadMore && (
         <div className={styles.container__actions}>
           <Button onClick={onLoadMore} loading={loading === 'loading'} size="large">
             Load More
