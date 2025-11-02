@@ -1,0 +1,9 @@
+@use '../abstracts/variables' as *;
+
+// Typography styles
+body {
+  font-family: $font-family-base;
+  font-size: $font-size-md;
+  color: $text-primary;
+  background-color: $background-color;
+}
