@@ -1,0 +1,36 @@
+@use '@/styles/abstracts/variables' as *;
+
+.errorBoundary {
+  &__details {
+    position: fixed;
+    bottom: $spacing-lg;
+    left: $spacing-lg;
+    right: $spacing-lg;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: $spacing-md;
+    background-color: $surface-color;
+    border: 1px solid $error-color;
+    border-radius: $border-radius-md;
+    color: $text-primary;
+    font-size: $font-size-xs;
+    z-index: 9999;
+    
+    summary {
+      cursor: pointer;
+      font-weight: 600;
+      margin-bottom: $spacing-sm;
+    }
+    
+    pre {
+      overflow: auto;
+      max-height: 200px;
+      padding: $spacing-sm;
+      background-color: rgba(0, 0, 0, 0.3);
+      border-radius: $border-radius-sm;
+      font-size: $font-size-xs;
+      line-height: 1.4;
+    }
+  }
+}
+

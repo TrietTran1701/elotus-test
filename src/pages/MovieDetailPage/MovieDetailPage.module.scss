@@ -228,5 +228,26 @@
       }
     }
   }
+  
+  // Button styles matching Hero component
+  :global(.button),
+  button {
+    border: none !important;
+    padding: $spacing-sm $spacing-lg !important;
+    border-radius: 50px !important;
+    cursor: pointer;
+    font-weight: 600 !important;
+    font-size: $font-size-sm !important;
+    transition: background 0.3s, transform 0.2s !important;
+    
+    @include respond-to(tablet) {
+      padding: 10px 20px !important;
+      font-size: $font-size-md !important;
+    }
+    
+    &:hover:not(:disabled) {
+      transform: scale(1.05) !important;
+    }
+  }
 }
 
