@@ -1,0 +1,62 @@
+@use '@/styles/abstracts/variables' as *;
+@use '@/styles/abstracts/mixins' as *;
+
+.page {
+  min-height: 100vh;
+  padding-top: calc(72px + $spacing-xl); // Header height + spacing
+  padding-bottom: $spacing-xl;
+  box-sizing: border-box;
+  width: 100%;
+
+  // Ensure main element and nested containers stretch to full width
+  main {
+    width: 100%;
+    max-width: 100%;
+  }
+  
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: $spacing-lg;
+    margin-bottom: $spacing-2xl;
+    padding-bottom: $spacing-lg;
+    border-bottom: 1px solid rgba($text-secondary, 0.1);
+    flex-wrap: wrap;
+    width: 100%;
+  }
+
+  &__title {
+    font-size: $font-size-xl;
+    font-weight: 700;
+    margin: 0;
+    color: $text-primary;
+
+    @include respond-to(tablet) {
+      font-size: 2.5rem;
+    }
+
+    @include respond-to(desktop) {
+      font-size: 2rem;
+    }
+  }
+
+  &__viewToggle {
+    flex-shrink: 0;
+  }
+
+  &__content {
+    padding: $spacing-xl 0;
+    width: 100%;
+
+    @include respond-to(tablet) {
+      padding: $spacing-2xl 0;
+    }
+  }
+
+  &__error {
+    @include flex-center;
+    min-height: 60vh;
+  }
+}
+

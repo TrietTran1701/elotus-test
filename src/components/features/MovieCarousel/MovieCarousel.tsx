@@ -15,7 +15,7 @@ export interface MovieCarouselProps {
   loading: LoadingState
 }
 
-export const MovieCarousel = ({ title, movies }: MovieCarouselProps) => {
+export const MovieCarousel = ({ movies }: MovieCarouselProps) => {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
   const carouselRef = useRef<HTMLDivElement>(null)

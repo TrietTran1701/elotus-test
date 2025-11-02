@@ -18,3 +18,6 @@ export type { LazyImageProps } from './Image'
 
 export { ScrollToTop } from './ScrollToTop'
 export { PageTransition } from './PageTransition'
+
+export { ViewModeToggle } from './ViewModeToggle'
+export type { ViewModeToggleProps, ViewMode } from './ViewModeToggle'

@@ -29,7 +29,7 @@ export const MovieList = ({ movies, loading, hasMore, onLoadMore }: MovieListPro
     <div className={styles.container}>
       <div className={styles.list}>
         {movies.map((movie) => (
-          <MovieCard key={movie.id} movie={movie} />
+          <MovieCard key={movie.id} movie={movie} variant="list" />
         ))}
       </div>
 

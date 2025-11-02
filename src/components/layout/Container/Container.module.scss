@@ -4,6 +4,13 @@
 .container {
   width: 100%;
   margin: 0 auto;
+  padding-left: 0;
+  padding-right: 0;
+
+  @include respond-to(desktop) {
+    padding-left: $spacing-xl;
+    padding-right: $spacing-xl;
+  }
 
   &--default {
     @include respond-to(desktop) {

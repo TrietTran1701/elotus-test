@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
+import { ChevronRight } from 'lucide-react'
 import { Container } from '@/components/layout/Container'
 import { TabBar } from '@/components/layout/TabBar'
 import { Hero } from '@/components/features/Hero'
@@ -49,15 +50,15 @@ export const HomePage = () => {
   // Fetch movies for the active tab (Now Playing or Top Rated)
   const { movies: activeTabMovies, loading, error, refetch } = useMovies(activeTab)
 
-  // Fetch movies for Upcoming category (shown in list/grid style below)
   const {
     movies: upcomingMovies,
     loading: upcomingLoading,
     error: upcomingError,
-    hasMore: upcomingHasMore,
-    loadMore: upcomingLoadMore,
     refetch: upcomingRefetch,
   } = useMovies(MovieCategory.UPCOMING)
+
+  // Limit to 10 items for home page
+  const displayedUpcomingMovies = upcomingMovies.slice(0, 12)
 
   // Get top 5 movies with backdrop images for Hero
   const heroTopMovies = heroMovies.slice(0, 5).filter(movie => movie.backdrop_path)
@@ -92,7 +93,20 @@ export const HomePage = () => {
 
             {/* Upcoming Movies Section */}
             <div className={styles.page__upcoming}>
-              <h2 className={styles.page__upcoming__title}>Upcoming</h2>
+              <div className={styles.page__upcoming__header}>
+                <h2 className={styles.page__upcoming__title}>Upcoming</h2>
+                <button
+                  className={styles.page__upcoming__viewMore}
+                  aria-label="View more upcoming movies"
+                  onClick={() => navigate(ROUTES.UPCOMING)}
+                >
+                  <span className={styles.page__upcoming__viewMore__text}>View more</span>
+                  <ChevronRight
+                    className={styles.page__upcoming__viewMore__icon}
+                    aria-hidden="true"
+                  />
+                </button>
+              </div>
               {upcomingError ? (
                 <div className={styles.page__upcoming__error}>
                   <ErrorMessage
@@ -103,10 +117,10 @@ export const HomePage = () => {
               ) : (
                 <div className={styles.page__content}>
                   <MovieGrid
-                    movies={upcomingMovies}
+                    movies={displayedUpcomingMovies}
                     loading={upcomingLoading}
-                    hasMore={upcomingHasMore}
-                    onLoadMore={upcomingLoadMore}
+                    hasMore={false}
+                    onLoadMore={() => {}}
                   />
                 </div>
               )}

@@ -1,6 +1,7 @@
 export const ROUTES = {
   HOME: '/',
   MOVIE_DETAIL: '/movie/:id',
+  UPCOMING: '/upcoming',
   NOT_FOUND: '*',
 } as const
 

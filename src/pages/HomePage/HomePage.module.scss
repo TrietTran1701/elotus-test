@@ -45,13 +45,106 @@
     padding-top: $spacing-2xl;
     border-top: 1px solid rgba($text-secondary, 0.1);
 
+    &__header {
+      display: flex;
+      align-items: center;
+      gap: $spacing-md;
+      margin-bottom: $spacing-xl;
+    }
+
     &__title {
       font-size: $font-size-md;
       font-weight: 600;
-      margin: 0 0 $spacing-xl 0;
+      margin: 0;
 
       @include respond-to(tablet) {
         font-size: $font-size-lg;
+      }
+    }
+
+    &__viewMore {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: $spacing-sm;
+      width: 20px;
+      height: 20px;
+      padding: 0;
+      border: 1px solid rgba($text-secondary, 0.3);
+      background: rgba($surface-color, 0.8);
+      color: $text-primary;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: all $transition-base;
+      overflow: hidden;
+      white-space: nowrap;
+      position: relative;
+      font-family: inherit;
+      font-size: $font-size-sm;
+
+      @include focus-visible;
+
+      &__text {
+        opacity: 0;
+        width: 0;
+        transform: translateX(-10px);
+        transition: opacity $transition-base, width $transition-base,
+          transform $transition-base;
+        pointer-events: none;
+      }
+
+      &__icon {
+        width: 14px;
+        height: 14px;
+        flex-shrink: 0;
+        transition: transform $transition-base;
+        display: block;
+        margin: 0 auto;
+        transform: translateX(-2px);
+      }
+
+      &:hover,
+      &:focus-visible {
+        width: auto;
+        min-width: 100px;
+        padding: 0 $spacing-md;
+        border-radius: 9999px;
+        border-color: rgba($primary-color, 0.5);
+        background: rgba($primary-color, 0.1);
+      }
+
+      &:hover &__text,
+      &:focus-visible &__text {
+        opacity: 1;
+        width: auto;
+        transform: translateX(0);
+        pointer-events: auto;
+      }
+
+      &:hover &__icon,
+      &:focus-visible &__icon {
+        transform: translateX(0);
+      }
+
+      &:active {
+        transform: scale(0.98);
+      }
+
+      @include respond-to(tablet) {
+        width: 36px;
+        height: 36px;
+
+        &__icon {
+          width: 16px;
+          height: 16px;
+          transform: translateX(-2px);
+        }
+
+        &:hover,
+        &:focus-visible {
+          min-width: 110px;
+          padding: 0 $spacing-lg;
+        }
       }
     }
 

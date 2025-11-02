@@ -1,0 +1,2 @@
+export { UpcomingMoviesPage } from './UpcomingMoviesPage'
+

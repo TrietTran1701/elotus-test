@@ -1,0 +1,56 @@
+@use '@/styles/abstracts/variables' as *;
+@use '@/styles/abstracts/mixins' as *;
+
+.toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-xs;
+  background-color: rgba($surface-color, 0.5);
+  border: 1px solid rgba($text-secondary, 0.2);
+  border-radius: $border-radius-lg;
+  padding: $spacing-xs;
+  backdrop-filter: blur(8px);
+
+  &__button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: $spacing-sm $spacing-md;
+    background: transparent;
+    border: none;
+    border-radius: $border-radius-md;
+    color: rgba($text-primary, 0.6);
+    cursor: pointer;
+    transition: all $transition-base;
+    min-width: 40px;
+    min-height: 36px;
+
+    svg {
+      width: 18px;
+      height: 18px;
+      stroke-width: 2;
+    }
+
+    &:hover {
+      color: $text-primary;
+      background-color: rgba($text-primary, 0.1);
+    }
+
+    &:focus-visible {
+      outline: 2px solid $primary-color;
+      outline-offset: 2px;
+    }
+
+    &--active {
+      background-color: rgba($primary-color, 0.2);
+      color: $primary-color;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+
+      &:hover {
+        background-color: rgba($primary-color, 0.3);
+        color: $primary-color;
+      }
+    }
+  }
+}
+
