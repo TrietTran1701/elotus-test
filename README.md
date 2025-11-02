@@ -10,15 +10,15 @@ A modern, responsive movie discovery application built with React, TypeScript, a
 - [Features](#features)
 - [Technology Stack](#technology-stack)
 
-## Product Site
+## Link to my movie app
 
-([https://nitflex.vercel.app](https://nitflex.vercel.app))
+[https://nitflex.vercel.app](https://nitflex.vercel.app)
 
 ## Product Demo
 
 ### Screen Recording
 
-([Watch my product demo here](https://drive.google.com/file/d/16QB0Yi7WITH2pHfOxeo_1Nr-JwlIc5I4/view?usp=sharing))
+[Watch my product demo here](https://drive.google.com/file/d/16QB0Yi7WITH2pHfOxeo_1Nr-JwlIc5I4/view?usp=sharing)
 
 ## Build Instructions
 
