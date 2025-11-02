@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { moviesService } from '@/services'
 import { formatYear, formatRating, truncateText } from '@/utils/formatters'
@@ -13,18 +13,10 @@ export interface HeroProps {
 
 export const Hero = ({ movies }: HeroProps) => {
   const [currentIndex, setCurrentIndex] = useState(0)
+  const [prevIndex, setPrevIndex] = useState(0)
+  const [isTransitioning, setIsTransitioning] = useState(false)
+  const [isInitialMount, setIsInitialMount] = useState(true)
   const navigate = useNavigate()
-
-  // Auto-play carousel every 8 seconds
-  useEffect(() => {
-    if (movies.length <= 1) return
-
-    const interval = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % movies.length)
-    }, 8000)
-
-    return () => clearInterval(interval)
-  }, [movies.length])
 
   if (!movies || movies.length === 0) return null
   
@@ -32,6 +24,10 @@ export const Hero = ({ movies }: HeroProps) => {
   if (!currentMovie) return null
 
   const backdropUrl = moviesService.getBackdropURL(currentMovie, IMAGE_SIZES.BACKDROP.LARGE)
+  const prevMovie = prevIndex !== currentIndex && movies[prevIndex] ? movies[prevIndex] : null
+  const prevBackdropUrl = prevMovie 
+    ? moviesService.getBackdropURL(prevMovie, IMAGE_SIZES.BACKDROP.LARGE)
+    : backdropUrl
   const year = formatYear(currentMovie.release_date)
   const rating = formatRating(currentMovie.vote_average)
   const description = truncateText(currentMovie.overview, 200)
@@ -49,20 +45,53 @@ export const Hero = ({ movies }: HeroProps) => {
   }
 
   const goToSlide = (index: number) => {
+    if (index === currentIndex) return
+    setIsInitialMount(false)
+    setIsTransitioning(true)
+    setPrevIndex(currentIndex)
     setCurrentIndex(index)
+    // Reset transitioning state after animation completes
+    setTimeout(() => setIsTransitioning(false), 600)
   }
 
 
   return (
-    <section
-      className={styles.hero}
-      style={{
-        backgroundImage: backdropUrl ? `url(${backdropUrl})` : undefined,
-      }}
-    >
+    <section className={styles.hero}>
+      {backdropUrl && (
+        <>
+          <div
+            className={`${styles.hero__background} ${styles['hero__background--current']} ${
+              isTransitioning ? styles['hero__background--entering'] : ''
+            }`}
+            style={{
+              backgroundImage: `url(${backdropUrl})`,
+            }}
+          />
+          <div
+            className={`${styles.hero__background} ${styles['hero__background--prev']} ${
+              isTransitioning ? styles['hero__background--exiting'] : ''
+            }`}
+            style={{
+              backgroundImage: `url(${prevBackdropUrl})`,
+            }}
+          />
+          <div
+            className={styles.hero__blurredBackground}
+            style={{
+              backgroundImage: `url(${backdropUrl})`,
+            }}
+          />
+        </>
+      )}
       <div className={styles.hero__overlay}>
         <div className={styles.hero__wrapper}>
-          <div className={styles.hero__content}>
+          {/* Hero content */}
+          <div 
+            key={currentIndex} 
+            className={`${styles.hero__content} ${
+              !isInitialMount ? styles['hero__content--entering'] : ''
+            }`}
+          >
             <h1 className={styles.hero__title}>{currentMovie.title}</h1>
             <h3 className={styles.hero__subtitle}>{currentMovie.original_title}</h3>
 

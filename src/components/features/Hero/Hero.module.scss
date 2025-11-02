@@ -9,7 +9,6 @@
   margin: 0;
   padding: 0;
   top: 0;
-  background: center/cover no-repeat;
   color: $text-primary;
   display: flex;
   flex-direction: column;
@@ -17,7 +16,59 @@
   justify-content: space-evenly;
   overflow: hidden;
 
+  &__background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    transition: opacity 0.6s ease-in-out, transform 0.6s ease-in-out;
+    z-index: 0;
+
+    &--current {
+      opacity: 1;
+      transform: translateX(0);
+      z-index: 1;
+    }
+
+    &--prev {
+      opacity: 1;
+      transform: translateX(0);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    &--entering {
+      animation: slideInFromRight 0.6s ease-in-out forwards;
+    }
+
+    &--exiting {
+      animation: slideOutToLeft 0.6s ease-in-out forwards;
+    }
+  }
+
+  &__blurredBackground {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-position: 50%;
+    background-size: cover;
+    filter: blur(50px);
+    -webkit-filter: blur(80px);
+    opacity: 0.2;
+    z-index: 0;
+    transition: background-image 0.6s ease-in-out;
+  }
+
   &__overlay {
+    position: relative;
+    z-index: 1;
     background: linear-gradient(to right, rgba(0, 0, 0, 0.8) 30%, transparent 70%);
     width: 100%;
     height: 100%;
@@ -56,12 +107,17 @@
 
   &__content {
     max-width: 600px;
-    animation: fadeIn 1.2s ease;
     flex-shrink: 1;
+    opacity: 1;
+    transform: translateX(0);
 
     @media (max-width: 767px) {
       max-width: 100%;
       width: 100%;
+    }
+
+    &--entering {
+      animation: slideInFromLeft 0.6s ease-in-out;
     }
   }
 
@@ -196,7 +252,7 @@
     overflow: hidden;
     background: rgba(0, 0, 0, 0.5);
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: transform 0.3s ease, border-color 0.4s ease, box-shadow 0.4s ease;
     padding: 0;
     outline: none;
 
@@ -215,8 +271,8 @@
     }
 
     &:hover {
-      transform: scale(1.05);
-      border-color: rgba(255, 255, 255, 0.5);
+      border: 2px solid $text-primary;
+      box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
     }
 
     &--active {
@@ -233,14 +289,39 @@
   }
 }
 
-@keyframes fadeIn {
+// Animations
+@keyframes slideInFromLeft {
   from {
     opacity: 0;
-    transform: translateY(30px);
+    transform: translateX(-50px);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateX(0);
   }
 }
+
+@keyframes slideInFromRight {
+  from {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideOutToLeft {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+}
+
+
 

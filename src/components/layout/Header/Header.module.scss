@@ -11,9 +11,9 @@
   align-items: center;
   justify-content: space-between;
   z-index: $z-index-fixed;
-  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease, backdrop-filter 0.3s ease;
   background-color: transparent;
-  backdrop-filter: blur(8px);
+  backdrop-filter: none;
 
   &__skip {
     position: absolute;
@@ -42,6 +42,7 @@
 
   &.scrolled {
     background-color: rgba(10, 10, 10, 0.95);
+    backdrop-filter: blur(8px);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
   }
 
@@ -70,7 +71,7 @@
 
   &__logo {
     font-weight: 700;
-    font-size: $font-size-lg;
+    font-size: $font-size-2xl;
     color: $primary-color;
     text-decoration: none;
     transition: opacity 0.2s;

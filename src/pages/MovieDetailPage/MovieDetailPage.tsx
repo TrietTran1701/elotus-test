@@ -137,8 +137,19 @@ export const MovieDetailPage = () => {
     <div className={styles.page}>
       {/* Backdrop */}
       {backdropUrl && (
-        <div className={styles.page__backdrop}>
+        <div
+          className={styles.page__backdrop}
+          style={{
+            backgroundImage: `url(${backdropUrl})`,
+          }}
+        >
           <img src={backdropUrl} alt="" className={styles.page__backdrop__image} />
+          <div
+            className={styles.page__backdrop__blurredBackground}
+            style={{
+              backgroundImage: `url(${backdropUrl})`,
+            }}
+          />
           <div className={styles.page__backdrop__overlay} />
         </div>
       )}

@@ -31,15 +31,12 @@ export const HomePage = () => {
     setActiveTab(category)
   }, [searchParams])
 
-  // Get now_playing movies for Hero section (only show Hero for now_playing category)
-  const showHero = activeTab === MovieCategory.NOW_PLAYING
-  const { movies: heroMovies } = useMovies(MovieCategory.NOW_PLAYING)
+  // Get popular movies for Hero section (always show Hero with popular movies)
+  const { movies: heroMovies } = useMovies(MovieCategory.POPULAR)
   const { movies, loading, error, hasMore, loadMore, refetch } = useMovies(activeTab)
 
   // Get top 5 movies with backdrop images for Hero
-  const heroTopMovies = showHero 
-    ? heroMovies.slice(0, 5).filter(movie => movie.backdrop_path) 
-    : []
+  const heroTopMovies = heroMovies.slice(0, 5).filter(movie => movie.backdrop_path)
 
   // Only show regular movies (no search results on HomePage)
   if (error) {
@@ -55,11 +52,11 @@ export const HomePage = () => {
   return (
     <PageTransition>
       <div className={styles.page}>
-        {showHero && heroTopMovies.length > 0 && <Hero movies={heroTopMovies} />}
+        {heroTopMovies.length > 0 && <Hero movies={heroTopMovies} />}
         
         <Container>
           <main id="main-content">
-            <div className={`${styles.page__content} ${showHero && heroTopMovies.length > 0 ? styles['page__content--with-hero'] : ''}`}>
+            <div className={`${styles.page__content} ${heroTopMovies.length > 0 ? styles['page__content--with-hero'] : ''}`}>
               {viewMode === ViewMode.GRID ? (
                 <MovieGrid movies={movies} loading={loading} hasMore={hasMore} onLoadMore={loadMore} />
               ) : (
