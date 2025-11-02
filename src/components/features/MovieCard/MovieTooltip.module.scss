@@ -1,0 +1,252 @@
+@use 'sass:color';
+@use '@/styles/abstracts/variables' as *;
+@use '@/styles/abstracts/mixins' as *;
+
+.tooltip {
+  position: fixed;
+  width: 400px;
+  min-height: 300px;
+  border-radius: $border-radius-lg;
+  overflow: hidden;
+  z-index: $z-index-tooltip;
+  box-shadow: $shadow-xl;
+  cursor: default;
+  animation: tooltipFadeIn 0.3s ease-out;
+
+  @include respond-to(mobile-lg) {
+    width: 360px;
+  }
+
+  @include respond-to(desktop) {
+    width: 450px;
+  }
+
+  &__backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  &__overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 70%;
+    background: linear-gradient(
+      to top,
+      rgba($background-color, 0.95) 0%,
+      rgba($background-color, 0.8) 40%,
+      transparent 100%
+    );
+    z-index: 2;
+  }
+
+  &__content {
+    position: relative;
+    z-index: 3;
+    padding: $spacing-lg;
+    padding-top: 40%;
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-md;
+
+    @include respond-to(desktop) {
+      padding: $spacing-xl;
+      padding-top: 45%;
+      gap: $spacing-lg;
+    }
+  }
+
+  &__titles {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-xs;
+  }
+
+  &__title {
+    font-size: $font-size-lg;
+    font-weight: 700;
+    color: $text-primary;
+    margin: 0;
+    line-height: 1.3;
+
+    @include respond-to(desktop) {
+      font-size: $font-size-xl;
+    }
+  }
+
+  &__originalTitle {
+    font-size: $font-size-md;
+    font-weight: 400;
+    color: #f8d86b;
+    margin: 0;
+    line-height: 1.3;
+
+    @include respond-to(desktop) {
+      font-size: $font-size-lg;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    gap: $spacing-sm;
+    flex-wrap: wrap;
+  }
+
+  &__button {
+    display: flex;
+    align-items: center;
+    gap: $spacing-xs;
+    padding: $spacing-sm $spacing-md;
+    border-radius: $border-radius-md;
+    border: none;
+    background: $primary-color;
+    color: $text-primary;
+    font-weight: 600;
+    font-size: $font-size-sm;
+    cursor: pointer;
+    transition: all $transition-fast;
+
+    @include respond-to(desktop) {
+      padding: $spacing-sm $spacing-lg;
+      font-size: $font-size-md;
+    }
+
+    &:hover {
+      background: color.adjust($primary-color, $lightness: -10%);
+      transform: scale(1.05);
+    }
+
+    &:active {
+      transform: scale(0.98);
+    }
+
+    &Icon {
+      font-size: $font-size-xs;
+      line-height: 1;
+
+      @include respond-to(desktop) {
+        font-size: $font-size-sm;
+      }
+    }
+  }
+
+  &__buttonSecondary {
+    display: flex;
+    align-items: center;
+    gap: $spacing-xs;
+    padding: $spacing-sm $spacing-md;
+    border-radius: $border-radius-md;
+    border: 1px solid rgba($text-primary, 0.3);
+    background: transparent;
+    color: $text-primary;
+    font-weight: 600;
+    font-size: $font-size-sm;
+    cursor: pointer;
+    transition: all $transition-fast;
+
+    @include respond-to(desktop) {
+      padding: $spacing-sm $spacing-lg;
+      font-size: $font-size-md;
+    }
+
+    &:hover {
+      background: rgba($text-primary, 0.1);
+      border-color: rgba($text-primary, 0.5);
+      transform: scale(1.05);
+    }
+
+    &:active {
+      transform: scale(0.98);
+    }
+
+    &Icon {
+      font-size: $font-size-xs;
+      line-height: 1;
+
+      @include respond-to(desktop) {
+        font-size: $font-size-sm;
+      }
+    }
+  }
+
+  &__meta {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    flex-wrap: wrap;
+  }
+
+  &__badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 2px $spacing-xs;
+    border-radius: $border-radius-sm;
+    background: $imdb-color;
+    color: #000;
+    font-weight: 600;
+    font-size: $font-size-xs;
+
+    @include respond-to(desktop) {
+      padding: 4px $spacing-sm;
+      font-size: $font-size-sm;
+    }
+  }
+
+  &__badgeSecondary {
+    display: inline-flex;
+    align-items: center;
+    padding: 2px $spacing-xs;
+    border-radius: $border-radius-sm;
+    background: rgba($text-primary, 0.2);
+    color: $text-primary;
+    font-weight: 600;
+    font-size: $font-size-xs;
+    border: 1px solid rgba($text-primary, 0.3);
+
+    @include respond-to(desktop) {
+      padding: 4px $spacing-sm;
+      font-size: $font-size-sm;
+    }
+  }
+
+  &__metaText {
+    color: $text-primary;
+    font-size: $font-size-xs;
+
+    @include respond-to(desktop) {
+      font-size: $font-size-sm;
+    }
+  }
+
+  &__genres {
+    color: $text-primary;
+    font-size: $font-size-xs;
+    line-height: 1.5;
+
+    @include respond-to(desktop) {
+      font-size: $font-size-sm;
+    }
+  }
+}
+
+@keyframes tooltipFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
