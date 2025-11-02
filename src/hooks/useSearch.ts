@@ -28,7 +28,7 @@ export const useSearch = (): UseSearchResult => {
   const debouncedQuery = useDebounce(query, 500)
 
   const searchMovies = useCallback(
-    async (searchQuery: string, pageNum: number = 1) => {
+    async (searchQuery: string, pageNum: number = 1): Promise<void> => {
       if (!searchQuery.trim()) {
         setResults([])
         setLoading('idle')
@@ -55,8 +55,6 @@ export const useSearch = (): UseSearchResult => {
         setPage(pageNum)
         setTotalPages(response.total_pages)
         setLoading('success')
-
-        return () => controller.abort()
       } catch (err) {
         if (err instanceof Error && err.name === 'AbortError') {
           return

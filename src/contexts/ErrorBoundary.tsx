@@ -30,7 +30,7 @@ export class ErrorBoundary extends Component<Props, State> {
     }
   }
 
-  componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
+  override componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
     console.error('Error Boundary caught an error:', error, errorInfo)
     
     this.setState({
@@ -50,7 +50,7 @@ export class ErrorBoundary extends Component<Props, State> {
     window.location.href = '/'
   }
 
-  render(): ReactNode {
+  override render(): ReactNode {
     if (this.state.hasError) {
       if (this.props.fallback) {
         return this.props.fallback

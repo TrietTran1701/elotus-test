@@ -15,7 +15,7 @@ export const useMovieDetails = (movieId: number): UseMovieDetailsResult => {
   const [loading, setLoading] = useState<LoadingState>('idle')
   const [error, setError] = useState<ErrorState | null>(null)
 
-  const fetchMovieDetails = useCallback(async () => {
+  const fetchMovieDetails = useCallback(async (): Promise<void> => {
     try {
       setLoading('loading')
       setError(null)
@@ -23,12 +23,12 @@ export const useMovieDetails = (movieId: number): UseMovieDetailsResult => {
       const controller = new AbortController()
       const data = await moviesService.getMovieDetails(movieId, controller.signal)
 
-      if (controller.signal.aborted) return
+      if (controller.signal.aborted) {
+        return
+      }
 
       setMovie(data)
       setLoading('success')
-
-      return () => controller.abort()
     } catch (err) {
       if (err instanceof Error && err.name === 'AbortError') {
         return

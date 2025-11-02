@@ -62,6 +62,7 @@ export const MovieTooltip = ({ movie, movieDetails, position, onClose, onMouseEn
 
   const handleWatchNow = (e: React.MouseEvent) => {
     e.stopPropagation()
+    window.scrollTo({ top: 0, behavior: 'instant' })
     navigate(buildMovieDetailRoute(movie.id))
     onClose()
   }
@@ -74,6 +75,7 @@ export const MovieTooltip = ({ movie, movieDetails, position, onClose, onMouseEn
 
   const handleDetails = (e: React.MouseEvent) => {
     e.stopPropagation()
+    window.scrollTo({ top: 0, behavior: 'instant' })
     navigate(buildMovieDetailRoute(movie.id))
     onClose()
   }
