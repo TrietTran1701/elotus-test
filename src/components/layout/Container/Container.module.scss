@@ -4,12 +4,10 @@
 .container {
   width: 100%;
   margin: 0 auto;
-  padding: 0 $spacing-xl;
 
   &--default {
     @include respond-to(desktop) {
       max-width: 1280px;
-      padding: 0 $spacing-xl;
     }
 
     @include respond-to(desktop-lg) {
