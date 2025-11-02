@@ -4,6 +4,7 @@ import { Header } from './components/layout/Header'
 import { HomePage } from './pages/HomePage'
 import { MovieDetailPage } from './pages/MovieDetailPage'
 import { UpcomingMoviesPage } from './pages/UpcomingMoviesPage'
+import { PopularMoviesPage } from './pages/PopularMoviesPage'
 import { NotFoundPage } from './pages/NotFoundPage'
 import { ROUTES } from './constants/routes.constants'
 
@@ -15,6 +16,7 @@ function App() {
         <Routes>
           <Route path={ROUTES.HOME} element={<HomePage />} />
           <Route path={ROUTES.UPCOMING} element={<UpcomingMoviesPage />} />
+          <Route path={ROUTES.POPULAR} element={<PopularMoviesPage />} />
           <Route path={ROUTES.MOVIE_DETAIL} element={<MovieDetailPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>

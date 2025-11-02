@@ -1,20 +1,36 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Button } from '../Button'
 import styles from './ScrollToTop.module.scss'
 
 export const ScrollToTop = () => {
   const [isVisible, setIsVisible] = useState(false)
+  const lastScrollY = useRef(0)
 
   useEffect(() => {
     const toggleVisibility = () => {
-      if (window.scrollY > 300) {
+      const currentScrollY = window.scrollY
+      
+      // Show immediately when scrolling down (and past a small threshold)
+      if (currentScrollY > lastScrollY.current && currentScrollY > 100) {
         setIsVisible(true)
-      } else {
+      } 
+      // Hide immediately when scrolling up
+      else if (currentScrollY < lastScrollY.current) {
         setIsVisible(false)
       }
+      // Hide when at the top
+      else if (currentScrollY <= 100) {
+        setIsVisible(false)
+      }
+
+      lastScrollY.current = currentScrollY
     }
 
-    window.addEventListener('scroll', toggleVisibility)
+    // Check initial scroll position
+    lastScrollY.current = window.scrollY
+    toggleVisibility()
+
+    window.addEventListener('scroll', toggleVisibility, { passive: true })
 
     return () => {
       window.removeEventListener('scroll', toggleVisibility)

@@ -57,8 +57,16 @@ export const HomePage = () => {
     refetch: upcomingRefetch,
   } = useMovies(MovieCategory.UPCOMING)
 
-  // Limit to 10 items for home page
+  const {
+    movies: popularMovies,
+    loading: popularLoading,
+    error: popularError,
+    refetch: popularRefetch,
+  } = useMovies(MovieCategory.POPULAR)
+
+  // Limit to 12 items for home page
   const displayedUpcomingMovies = upcomingMovies.slice(0, 12)
+  const displayedPopularMovies = popularMovies.slice(0, 12)
 
   // Get top 5 movies with backdrop images for Hero
   const heroTopMovies = heroMovies.slice(0, 5).filter(movie => movie.backdrop_path)
@@ -121,6 +129,43 @@ export const HomePage = () => {
                   <MovieGrid
                     movies={displayedUpcomingMovies}
                     loading={upcomingLoading}
+                    hasMore={false}
+                    onLoadMore={() => {}}
+                  />
+                </div>
+              )}
+            </div>
+
+            {/* Popular Movies Section */}
+            <div className={styles.page__upcoming}>
+              <div className={styles.page__upcoming__header}>
+                <h2 className={styles.page__upcoming__title}>Popular</h2>
+                <button
+                  className={styles.page__upcoming__viewMore}
+                  aria-label="View more popular movies"
+                  onClick={() => navigate(ROUTES.POPULAR)}
+                >
+                  <div className={styles.page__upcoming__viewMore__content}>
+                    <span className={styles.page__upcoming__viewMore__text}>View more</span>
+                    <ChevronRight
+                      className={styles.page__upcoming__viewMore__icon}
+                      aria-hidden="true"
+                    />
+                  </div>
+                </button>
+              </div>
+              {popularError ? (
+                <div className={styles.page__upcoming__error}>
+                  <ErrorMessage
+                    message={popularError.message}
+                    onRetry={popularRefetch}
+                  />
+                </div>
+              ) : (
+                <div className={styles.page__content}>
+                  <MovieGrid
+                    movies={displayedPopularMovies}
+                    loading={popularLoading}
                     hasMore={false}
                     onLoadMore={() => {}}
                   />

@@ -18,8 +18,10 @@ export interface MovieCarouselProps {
 export const MovieCarousel = ({ movies }: MovieCarouselProps) => {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
+  const [isPaused, setIsPaused] = useState(false)
   const carouselRef = useRef<HTMLDivElement>(null)
   const navigate = useNavigate()
+  const autoPlayIntervalRef = useRef<NodeJS.Timeout | null>(null)
 
   const getVisibleCards = () => {
     if (typeof window !== 'undefined') {
@@ -46,11 +48,61 @@ export const MovieCarousel = ({ movies }: MovieCarouselProps) => {
   const maxIndex = Math.max(0, movies.length - visibleCards)
 
   const handlePrev = () => {
+    setIsPaused(true)
     setCurrentIndex((prev) => Math.max(0, prev - 1))
+    // Resume auto-play after 5 seconds
+    setTimeout(() => setIsPaused(false), 5000)
   }
 
   const handleNext = () => {
-    setCurrentIndex((prev) => Math.min(maxIndex, prev + 1))
+    setIsPaused(true)
+    setCurrentIndex((prev) => {
+      if (prev >= maxIndex) {
+        return 0 // Loop back to start
+      }
+      return Math.min(maxIndex, prev + 1)
+    })
+    // Resume auto-play after 5 seconds
+    setTimeout(() => setIsPaused(false), 5000)
+  }
+
+  // Auto-play functionality
+  useEffect(() => {
+    if (movies.length === 0 || maxIndex === 0) return
+
+    const startAutoPlay = () => {
+      if (autoPlayIntervalRef.current) {
+        clearInterval(autoPlayIntervalRef.current)
+      }
+
+      autoPlayIntervalRef.current = setInterval(() => {
+        if (!isPaused) {
+          setCurrentIndex((prev) => {
+            if (prev >= maxIndex) {
+              return 0 // Loop back to start
+            }
+            return prev + 1
+          })
+        }
+      }, 3000) // Auto-advance every 3 seconds
+    }
+
+    startAutoPlay()
+
+    return () => {
+      if (autoPlayIntervalRef.current) {
+        clearInterval(autoPlayIntervalRef.current)
+      }
+    }
+  }, [movies.length, maxIndex, isPaused])
+
+  // Pause on hover, resume on leave
+  const handleMouseEnter = () => {
+    setIsPaused(true)
+  }
+
+  const handleMouseLeave = () => {
+    setIsPaused(false)
   }
 
   const handleMovieClick = (movieId: number) => {
@@ -62,7 +114,11 @@ export const MovieCarousel = ({ movies }: MovieCarouselProps) => {
   }
 
   return (
-    <div className={styles.carousel}>
+    <div 
+      className={styles.carousel}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
       <div className={styles.carousel__wrapper}>
         {currentIndex > 0 && (
           <button

@@ -1,0 +1,2 @@
+export { PopularMoviesPage } from './PopularMoviesPage'
+
