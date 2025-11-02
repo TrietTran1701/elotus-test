@@ -13,6 +13,32 @@
   z-index: $z-index-fixed;
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
   background-color: transparent;
+  backdrop-filter: blur(8px);
+
+  &__skip {
+    position: absolute;
+    left: -9999px;
+    top: auto;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+
+    &:focus {
+      position: fixed;
+      top: $spacing-md;
+      left: $spacing-md;
+      width: auto;
+      height: auto;
+      padding: $spacing-md $spacing-lg;
+      background-color: $primary-color;
+      color: $text-primary;
+      text-decoration: none;
+      border-radius: $border-radius-md;
+      z-index: 9999;
+      outline: 2px solid $text-primary;
+      outline-offset: 2px;
+    }
+  }
 
   &.scrolled {
     background-color: rgba(10, 10, 10, 0.95);

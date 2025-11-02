@@ -1,0 +1,84 @@
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
+
+// Display utilities
+.d-none {
+  display: none !important;
+}
+
+.d-block {
+  display: block !important;
+}
+
+.d-flex {
+  display: flex !important;
+}
+
+.d-grid {
+  display: grid !important;
+}
+
+// Responsive display
+@include respond-to(tablet) {
+  .d-tablet-none {
+    display: none !important;
+  }
+
+  .d-tablet-block {
+    display: block !important;
+  }
+
+  .d-tablet-flex {
+    display: flex !important;
+  }
+}
+
+@include respond-to(desktop) {
+  .d-desktop-none {
+    display: none !important;
+  }
+
+  .d-desktop-block {
+    display: block !important;
+  }
+
+  .d-desktop-flex {
+    display: flex !important;
+  }
+}
+
+// Text utilities
+.text-center {
+  text-align: center !important;
+}
+
+.text-left {
+  text-align: left !important;
+}
+
+.text-right {
+  text-align: right !important;
+}
+
+// Spacing utilities
+.mt-auto {
+  margin-top: auto !important;
+}
+
+.mb-auto {
+  margin-bottom: auto !important;
+}
+
+// Accessibility
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+

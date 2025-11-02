@@ -85,7 +85,6 @@ export const Header = () => {
     
     // Update URL params in real-time
     const params = new URLSearchParams(location.search)
-    const category = params.get('category')
     
     if (value.trim()) {
       // Navigate to a movie detail page with search query
@@ -135,6 +134,9 @@ export const Header = () => {
 
   return (
     <>
+      <a href="#main-content" className={styles.header__skip}>
+        Skip to main content
+      </a>
       <header className={`${styles.header} ${isScrolled ? styles.scrolled : ''}`}>
         <div className={styles.header__container}>
           <div className={styles.header__left}>

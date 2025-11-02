@@ -62,3 +62,17 @@ $shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
 $shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 $shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
 $shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+
+// Responsive font sizes
+$font-size-responsive-xs: clamp(0.625rem, 0.5rem + 0.5vw, 0.75rem);
+$font-size-responsive-sm: clamp(0.75rem, 0.625rem + 0.5vw, 0.875rem);
+$font-size-responsive-md: clamp(0.875rem, 0.75rem + 0.5vw, 1rem);
+$font-size-responsive-lg: clamp(1rem, 0.875rem + 0.5vw, 1.25rem);
+$font-size-responsive-xl: clamp(1.25rem, 1rem + 1vw, 1.5rem);
+$font-size-responsive-2xl: clamp(1.5rem, 1.25rem + 1vw, 2rem);
+
+// Responsive spacing
+$spacing-responsive-sm: clamp(0.5rem, 0.25rem + 1vw, 0.75rem);
+$spacing-responsive-md: clamp(0.75rem, 0.5rem + 1vw, 1rem);
+$spacing-responsive-lg: clamp(1rem, 0.75rem + 1vw, 1.5rem);
+$spacing-responsive-xl: clamp(1.5rem, 1rem + 2vw, 2rem);

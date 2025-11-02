@@ -3,7 +3,7 @@ import { useSearchParams } from 'react-router-dom'
 import { Container } from '@/components/layout/Container'
 import { Hero } from '@/components/features/Hero'
 import { MovieGrid } from '@/components/features/MovieGrid'
-import { ErrorMessage } from '@/components/common'
+import { ErrorMessage, ScrollToTop, PageTransition } from '@/components/common'
 import { useMovies } from '@/hooks'
 import { MovieCategory, ViewMode } from '@/types'
 import styles from './HomePage.module.scss'
@@ -53,19 +53,25 @@ export const HomePage = () => {
   }
 
   return (
-    <div className={styles.page}>
-      {showHero && heroTopMovies.length > 0 && <Hero movies={heroTopMovies} />}
-      
-      <Container>
-        <div className={`${styles.page__content} ${showHero && heroTopMovies.length > 0 ? styles['page__content--with-hero'] : ''}`}>
-          {viewMode === ViewMode.GRID ? (
-            <MovieGrid movies={movies} loading={loading} hasMore={hasMore} onLoadMore={loadMore} />
-          ) : (
-            <MovieGrid movies={movies} loading={loading} hasMore={hasMore} onLoadMore={loadMore} />
-          )}
-        </div>
-      </Container>
-    </div>
+    <PageTransition>
+      <div className={styles.page}>
+        {showHero && heroTopMovies.length > 0 && <Hero movies={heroTopMovies} />}
+        
+        <Container>
+          <main id="main-content">
+            <div className={`${styles.page__content} ${showHero && heroTopMovies.length > 0 ? styles['page__content--with-hero'] : ''}`}>
+              {viewMode === ViewMode.GRID ? (
+                <MovieGrid movies={movies} loading={loading} hasMore={hasMore} onLoadMore={loadMore} />
+              ) : (
+                <MovieGrid movies={movies} loading={loading} hasMore={hasMore} onLoadMore={loadMore} />
+              )}
+            </div>
+          </main>
+        </Container>
+
+        <ScrollToTop />
+      </div>
+    </PageTransition>
   )
 }
 

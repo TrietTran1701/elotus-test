@@ -15,3 +15,6 @@ export type { ErrorMessageProps } from './ErrorMessage'
 
 export { LazyImage } from './Image'
 export type { LazyImageProps } from './Image'
+
+export { ScrollToTop } from './ScrollToTop'
+export { PageTransition } from './PageTransition'

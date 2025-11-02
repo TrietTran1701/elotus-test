@@ -5,32 +5,85 @@
   display: flex;
   flex-direction: column;
   cursor: pointer;
-  transition: transform $transition-base;
-  width: 100%;
+  transition: transform $transition-base cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
   
   @include focus-visible;
-  
+
+  // Add ripple effect container
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle, rgba($primary-color, 0.3) 0%, transparent 70%);
+    opacity: 0;
+    transform: scale(0);
+    transition: opacity $transition-base, transform $transition-base;
+    border-radius: $border-radius-lg;
+    pointer-events: none;
+  }
+
+  &:active::before {
+    opacity: 1;
+    transform: scale(1);
+    transition: opacity 0s, transform 0.3s;
+  }
+
   &:hover {
     transform: translateY(-8px);
-    
+    z-index: 10;
+
     .card__poster {
-      box-shadow: $shadow-xl;
+      box-shadow: 0 20px 40px rgba($primary-color, 0.3), $shadow-xl;
+
+      &::after {
+        opacity: 1;
+      }
     }
-    
+
     .card__title {
       color: $primary-color;
     }
+
+    .card__content {
+      transform: translateY(-4px);
+    }
   }
-  
+
+  &:active {
+    transform: translateY(-6px) scale(0.98);
+  }
+
   &__poster {
     position: relative;
     border-radius: $border-radius-lg;
     overflow: hidden;
     box-shadow: $shadow-md;
-    transition: box-shadow $transition-base;
+    transition: all $transition-base cubic-bezier(0.4, 0, 0.2, 1);
     width: 100%;
+
+    // Overlay effect on hover
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(
+        to top,
+        rgba($primary-color, 0.2) 0%,
+        transparent 50%
+      );
+      opacity: 0;
+      transition: opacity $transition-base;
+      pointer-events: none;
+    }
   }
-  
+
   &__rating {
     position: absolute;
     top: $spacing-sm;
@@ -41,31 +94,37 @@
     padding: $spacing-xs $spacing-sm;
     background-color: rgba($background-color, 0.95);
     border-radius: $border-radius-sm;
-    font-size: $font-size-xs;
+    font-size: $font-size-sm;
     font-weight: 600;
-    backdrop-filter: blur(8px);
+    backdrop-filter: blur(12px);
+    box-shadow: $shadow-md;
+    transition: transform $transition-fast;
     z-index: 2;
     max-width: calc(100% - #{$spacing-md});
-    
+
     &__icon {
       font-size: $font-size-xs;
       line-height: 1;
     }
-    
+
     &__value {
       color: $text-primary;
       white-space: nowrap;
     }
   }
-  
+
+  &:hover &__rating {
+    transform: scale(1.1);
+  }
+
   &__content {
     display: flex;
     flex-direction: column;
-    gap: $spacing-sm;
+    gap: $spacing-xs;
     padding-top: $spacing-md;
-    padding-bottom: $spacing-xs;
+    transition: transform $transition-base cubic-bezier(0.4, 0, 0.2, 1);
   }
-  
+
   &__title {
     font-size: $font-size-md;
     font-weight: 600;
@@ -73,18 +132,45 @@
     transition: color $transition-fast;
     min-height: 2.8em;
     line-height: 1.4;
-    
+
     @include line-clamp(2);
-    
+
     @include respond-to(tablet) {
       font-size: $font-size-lg;
       min-height: 3em;
     }
   }
-  
+
   &__year {
     font-size: $font-size-sm;
     color: $text-secondary;
+    transition: color $transition-fast;
+  }
+
+  &:hover &__year {
+    color: $text-primary;
+  }
+}
+
+// Add animation for new cards
+@keyframes cardEnter {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.card {
+  animation: cardEnter 0.4s cubic-bezier(0.4, 0, 0.2, 1) backwards;
+
+  @for $i from 1 through 20 {
+    &:nth-child(#{$i}) {
+      animation-delay: #{$i * 0.05}s;
+    }
   }
 }
 

@@ -6,6 +6,7 @@ export interface LazyImageProps extends Omit<ImgHTMLAttributes<HTMLImageElement>
   alt: string
   placeholderSrc?: string
   aspectRatio?: string
+  fadeInDuration?: number
 }
 
 export const LazyImage = ({
@@ -13,35 +14,39 @@ export const LazyImage = ({
   alt,
   placeholderSrc,
   aspectRatio = '2/3',
+  fadeInDuration = 500,
   className = '',
   ...props
 }: LazyImageProps) => {
   const [isLoaded, setIsLoaded] = useState(false)
   const [isInView, setIsInView] = useState(false)
   const [currentSrc, setCurrentSrc] = useState<string | null>(placeholderSrc || null)
+  const [hasError, setHasError] = useState(false)
   const imgRef = useRef<HTMLImageElement>(null)
+  const observerRef = useRef<IntersectionObserver | null>(null)
 
   useEffect(() => {
     if (!imgRef.current) return
 
-    const observer = new IntersectionObserver(
+    observerRef.current = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             setIsInView(true)
-            observer.disconnect()
+            observerRef.current?.disconnect()
           }
         })
       },
       {
-        rootMargin: '50px',
+        rootMargin: '100px', // Start loading 100px before entering viewport
+        threshold: 0.01,
       }
     )
 
-    observer.observe(imgRef.current)
+    observerRef.current.observe(imgRef.current)
 
     return () => {
-      observer.disconnect()
+      observerRef.current?.disconnect()
     }
   }, [])
 
@@ -52,11 +57,15 @@ export const LazyImage = ({
     img.src = src
 
     img.onload = () => {
-      setCurrentSrc(src)
-      setIsLoaded(true)
+      // Slight delay for better fade effect
+      setTimeout(() => {
+        setCurrentSrc(src)
+        setIsLoaded(true)
+      }, 50)
     }
 
     img.onerror = () => {
+      setHasError(true)
       setIsLoaded(true)
     }
   }, [isInView, src])
@@ -64,18 +73,34 @@ export const LazyImage = ({
   const imageClassNames = [
     styles.image,
     isLoaded ? styles['image--loaded'] : styles['image--loading'],
+    hasError ? styles['image--error'] : '',
     className,
   ]
     .filter(Boolean)
     .join(' ')
 
   return (
-    <div className={styles.image__container} style={{ aspectRatio }}>
-      {currentSrc ? (
-        <img ref={imgRef} src={currentSrc} alt={alt} className={imageClassNames} {...props} />
+    <div 
+      className={styles.image__container} 
+      style={{ 
+        aspectRatio,
+        '--fade-duration': `${fadeInDuration}ms`
+      } as React.CSSProperties}
+    >
+      {currentSrc && !hasError ? (
+        <img
+          ref={imgRef}
+          src={currentSrc}
+          alt={alt}
+          className={imageClassNames}
+          loading="lazy"
+          {...props}
+        />
       ) : (
         <div className={styles.image__placeholder} ref={imgRef}>
-          <span>🎬</span>
+          <span className={styles.image__placeholder__icon}>
+            {hasError ? '⚠️' : '🎬'}
+          </span>
         </div>
       )}
     </div>
