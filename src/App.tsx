@@ -14,7 +14,6 @@ function App() {
         <Routes>
           <Route path={ROUTES.HOME} element={<HomePage />} />
           <Route path={ROUTES.MOVIE_DETAIL} element={<MovieDetailPage />} />
-          <Route path={ROUTES.NOT_FOUND} element={<NotFoundPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </BrowserRouter>

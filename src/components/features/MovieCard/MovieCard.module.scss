@@ -33,7 +33,6 @@
   }
 
   &:hover {
-    transform: translateY(-8px);
     z-index: 10;
 
     .card__poster {
@@ -48,9 +47,6 @@
       color: $primary-color;
     }
 
-    .card__content {
-      transform: translateY(-4px);
-    }
   }
 
   &:active {

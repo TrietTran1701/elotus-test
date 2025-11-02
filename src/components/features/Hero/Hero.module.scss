@@ -78,11 +78,6 @@
     justify-content: center;
     padding-left: $spacing-xl;
     padding-right: $spacing-xl;
-    
-    @include respond-to(tablet) {
-      padding-left: 80px;
-      padding-right: 80px;
-    }
   }
 
   &__wrapper {
