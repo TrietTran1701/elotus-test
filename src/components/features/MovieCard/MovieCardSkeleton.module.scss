@@ -1,0 +1,57 @@
+@use 'sass:color';
+@use '@/styles/abstracts/variables' as *;
+@use '@/styles/abstracts/mixins' as *;
+
+.skeleton {
+  display: flex;
+  flex-direction: column;
+  
+  &__poster {
+    aspect-ratio: 2/3;
+    background: linear-gradient(
+      90deg,
+      $surface-color 0%,
+      color.adjust($surface-color, $lightness: 5%) 50%,
+      $surface-color 100%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border-radius: $border-radius-lg;
+  }
+  
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-sm;
+    padding-top: $spacing-md;
+  }
+  
+  &__title {
+    height: 20px;
+    width: 80%;
+    background: linear-gradient(
+      90deg,
+      $surface-color 0%,
+      color.adjust($surface-color, $lightness: 5%) 50%,
+      $surface-color 100%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border-radius: $border-radius-sm;
+  }
+  
+  &__year {
+    height: 16px;
+    width: 40%;
+    background: linear-gradient(
+      90deg,
+      $surface-color 0%,
+      color.adjust($surface-color, $lightness: 5%) 50%,
+      $surface-color 100%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border-radius: $border-radius-sm;
+  }
+}
+

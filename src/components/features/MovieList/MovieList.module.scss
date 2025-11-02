@@ -1,0 +1,24 @@
+@use '@/styles/abstracts/variables' as *;
+@use '@/styles/abstracts/mixins' as *;
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-2xl;
+  
+  &__actions {
+    @include flex-center;
+    padding: $spacing-lg 0;
+  }
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-lg;
+  
+  @include respond-to(tablet) {
+    gap: $spacing-xl;
+  }
+}
+

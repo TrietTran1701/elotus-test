@@ -1,0 +1,20 @@
+@use '@/styles/abstracts/variables' as *;
+@use '@/styles/abstracts/mixins' as *;
+
+.page {
+  min-height: 100vh;
+  
+  &__content {
+    padding: $spacing-xl 0;
+    
+    @include respond-to(tablet) {
+      padding: $spacing-2xl 0;
+    }
+  }
+  
+  &__error {
+    @include flex-center;
+    min-height: 60vh;
+  }
+}
+

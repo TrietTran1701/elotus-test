@@ -7,18 +7,27 @@ class ApiClient {
   private timeout: number
 
   constructor() {
-    this.baseURL = API_CONFIG.BASE_URL
+    this.baseURL = API_CONFIG.BASE_URL || 'https://api.themoviedb.org/3'
     this.apiKey = API_CONFIG.API_KEY
     this.timeout = API_CONFIG.TIMEOUT
 
     // Validate configuration
     if (!this.apiKey) {
-      throw new Error('TMDB API key is not configured')
+      throw new Error('TMDB API key is not configured. Please set VITE_TMDB_API_KEY in your .env file')
     }
+
+    if (!this.baseURL) {
+      throw new Error('TMDB Base URL is not configured. Please set VITE_TMDB_BASE_URL in your .env file')
+    }
+
+    // Ensure baseURL ends with / and doesn't have double slashes
+    this.baseURL = this.baseURL.replace(/\/+$/, '')
   }
 
   private buildURL(endpoint: string, params?: Record<string, string | number>): string {
-    const url = new URL(`${this.baseURL}${endpoint}`)
+    // Ensure endpoint starts with /
+    const normalizedEndpoint = endpoint.startsWith('/') ? endpoint : `/${endpoint}`
+    const url = new URL(`${this.baseURL}${normalizedEndpoint}`)
 
     // Add API key
     url.searchParams.append('api_key', this.apiKey)
@@ -134,7 +143,14 @@ class ApiClient {
   // Build image URL helper
   getImageURL(path: string | null, size: string = 'original'): string | null {
     if (!path) return null
-    return `${API_CONFIG.IMAGE_BASE_URL}/${size}${path}`
+    
+    const imageBaseURL = API_CONFIG.IMAGE_BASE_URL || 'https://image.tmdb.org/t/p'
+    // Normalize the base URL - remove trailing slashes
+    const normalizedBaseURL = imageBaseURL.replace(/\/+$/, '')
+    // Ensure path starts with /
+    const normalizedPath = path.startsWith('/') ? path : `/${path}`
+    
+    return `${normalizedBaseURL}/${size}${normalizedPath}`
   }
 }
 

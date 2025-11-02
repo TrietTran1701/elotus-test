@@ -1,3 +1,4 @@
+@use 'sass:color';
 @use '@/styles/abstracts/variables' as *;
 @use '@/styles/abstracts/mixins' as *;
 
@@ -35,7 +36,7 @@
     color: $text-primary;
 
     &:hover:not(:disabled) {
-      background-color: darken($primary-color, 10%);
+      background-color: color.adjust($primary-color, $lightness: -10%);
     }
   }
 
@@ -44,7 +45,7 @@
     color: $text-primary;
 
     &:hover:not(:disabled) {
-      background-color: lighten($surface-color, 5%);
+      background-color: color.adjust($surface-color, $lightness: 5%);
     }
   }
 

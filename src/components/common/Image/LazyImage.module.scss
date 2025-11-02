@@ -1,3 +1,4 @@
+@use 'sass:color';
 @use '@/styles/abstracts/variables' as *;
 @use '@/styles/abstracts/mixins' as *;
 
@@ -18,7 +19,7 @@
     background: linear-gradient(
       90deg,
       $surface-color 0%,
-      lighten($surface-color, 5%) 50%,
+      color.adjust($surface-color, $lightness: 5%) 50%,
       $surface-color 100%
     );
     background-size: 200% 100%;

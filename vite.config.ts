@@ -29,7 +29,7 @@ export default defineConfig({
           }
           return `@use "@/styles/abstracts/variables" as *;\n@use "@/styles/abstracts/mixins" as *;\n${content}`
         },
-        loadPaths: [path.resolve(__dirname, './src')]
+        includePaths: [path.resolve(__dirname, './src')]
       }
     }
   },

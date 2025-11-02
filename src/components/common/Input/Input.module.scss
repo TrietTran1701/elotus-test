@@ -1,3 +1,4 @@
+@use 'sass:color';
 @use '@/styles/abstracts/variables' as *;
 @use '@/styles/abstracts/mixins' as *;
 
@@ -24,7 +25,7 @@
 
   &:focus {
     border-color: $primary-color;
-    background-color: lighten($surface-color, 3%);
+    background-color: color.adjust($surface-color, $lightness: 3%);
   }
 
   &:disabled {
