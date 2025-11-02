@@ -3,17 +3,23 @@
 
 .page {
   min-height: 100vh;
-  padding-top: 64px; // Account for fixed header
   
-  @include respond-to(tablet) {
-    padding-top: 72px;
+  // Remove top padding/margin when Hero is shown - Hero should be at very top
+  &:has(.hero) {
+    padding-top: 0;
+    margin-top: 0;
   }
+  
   
   &__content {
     padding: $spacing-xl 0;
     
     @include respond-to(tablet) {
       padding: $spacing-2xl 0;
+    }
+
+    &--with-hero {
+      padding-top: $spacing-xl;
     }
   }
   

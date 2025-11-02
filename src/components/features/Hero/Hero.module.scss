@@ -1,0 +1,218 @@
+@use 'sass:color';
+@use '@/styles/abstracts/variables' as *;
+@use '@/styles/abstracts/mixins' as *;
+
+.hero {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  top: 0;
+  background: center/cover no-repeat;
+  color: $text-primary;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  overflow: hidden;
+
+  &__overlay {
+    background: linear-gradient(to right, rgba(0, 0, 0, 0.8) 30%, transparent 70%);
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    padding: 64px $spacing-xl 0;
+    
+    @include respond-to(tablet) {
+      padding: 72px 80px 0;
+    }
+  }
+
+  &__content {
+    max-width: 600px;
+    animation: fadeIn 1.2s ease;
+  }
+
+  &__title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: $spacing-sm;
+    line-height: 1.2;
+
+    @include respond-to(tablet) {
+      font-size: 3rem;
+    }
+  }
+
+  &__subtitle {
+    font-size: $font-size-md;
+    color: #f8d86b;
+    margin-bottom: $spacing-lg;
+
+    @include respond-to(tablet) {
+      font-size: $font-size-lg;
+    }
+  }
+
+  &__meta {
+    display: flex;
+    gap: $spacing-sm;
+    margin-bottom: $spacing-lg;
+    flex-wrap: wrap;
+  }
+
+  &__tag {
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: $border-radius-sm;
+    padding: $spacing-xs $spacing-sm;
+    font-size: $font-size-xs;
+
+    @include respond-to(tablet) {
+      font-size: $font-size-sm;
+      padding: 4px 8px;
+    }
+
+    &--imdb {
+      background: $imdb-color;
+      color: #000;
+      font-weight: 600;
+      border-color: $imdb-color;
+    }
+  }
+
+  &__desc {
+    line-height: 1.6;
+    font-size: $font-size-sm;
+    color: rgba(255, 255, 255, 0.85);
+    margin-bottom: $spacing-xl;
+
+    @include respond-to(tablet) {
+      font-size: $font-size-md;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    gap: $spacing-md;
+    flex-wrap: wrap;
+  }
+
+  &__playBtn,
+  &__likeBtn,
+  &__infoBtn {
+    border: none;
+    padding: $spacing-sm $spacing-lg;
+    border-radius: 50px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: $font-size-sm;
+    transition: background 0.3s, transform 0.2s;
+
+    @include respond-to(tablet) {
+      padding: 10px 20px;
+      font-size: $font-size-md;
+    }
+
+    &:hover {
+      transform: scale(1.05);
+    }
+  }
+
+  &__playBtn {
+    background: $primary-color;
+    color: $text-primary;
+
+    &:hover {
+      background: color.adjust($primary-color, $lightness: -10%);
+    }
+  }
+
+  &__likeBtn,
+  &__infoBtn {
+    background: rgba(255, 255, 255, 0.2);
+    color: $text-primary;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.35);
+    }
+  }
+
+  &__prevBtn,
+  &__nextBtn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.5);
+    border: none;
+    color: $text-primary;
+    font-size: 2rem;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background 0.3s;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &:hover {
+      background: rgba(0, 0, 0, 0.7);
+    }
+
+    @media (max-width: 767px) {
+      display: none;
+    }
+  }
+
+  &__prevBtn {
+    left: $spacing-md;
+  }
+
+  &__nextBtn {
+    right: $spacing-md;
+  }
+
+  &__indicators {
+    position: absolute;
+    bottom: $spacing-xl;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: $spacing-sm;
+    z-index: 10;
+  }
+
+  &__indicator {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.3s;
+    padding: 0;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    &--active {
+      background: $text-primary;
+      border-color: $text-primary;
+    }
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
