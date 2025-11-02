@@ -30,10 +30,21 @@ export const useMovies = (category: MovieCategory): UseMoviesResult => {
 
         let response: MovieListResponse
 
-        if (category === 'now_playing') {
-          response = await moviesService.getNowPlaying({ page: pageNum }, signal)
-        } else {
-          response = await moviesService.getTopRated({ page: pageNum }, signal)
+        switch (category) {
+          case 'now_playing':
+            response = await moviesService.getNowPlaying({ page: pageNum }, signal)
+            break
+          case 'popular':
+            response = await moviesService.getPopular({ page: pageNum }, signal)
+            break
+          case 'top_rated':
+            response = await moviesService.getTopRated({ page: pageNum }, signal)
+            break
+          case 'upcoming':
+            response = await moviesService.getUpcoming({ page: pageNum }, signal)
+            break
+          default:
+            response = await moviesService.getNowPlaying({ page: pageNum }, signal)
         }
 
         if (signal?.aborted) return

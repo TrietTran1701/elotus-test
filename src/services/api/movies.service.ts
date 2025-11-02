@@ -6,7 +6,9 @@ import type { PaginationParams } from '@/types/common.types'
 
 class MoviesService {
   private readonly CACHE_KEY_NOW_PLAYING = 'movies:now_playing'
+  private readonly CACHE_KEY_POPULAR = 'movies:popular'
   private readonly CACHE_KEY_TOP_RATED = 'movies:top_rated'
+  private readonly CACHE_KEY_UPCOMING = 'movies:upcoming'
   private readonly CACHE_KEY_MOVIE_DETAIL = 'movies:detail'
 
   async getNowPlaying(
@@ -39,6 +41,36 @@ class MoviesService {
     return data
   }
 
+  async getPopular(
+    params: PaginationParams = { page: 1 },
+    signal?: AbortSignal
+  ): Promise<MovieListResponse> {
+    // Check cache first
+    const cacheKey = this.CACHE_KEY_POPULAR
+    const cachedData = cacheService.get<MovieListResponse>(
+      cacheKey,
+      params as unknown as Record<string, unknown>
+    )
+
+    if (cachedData) {
+      return cachedData
+    }
+
+    // Fetch from API
+    const data = await apiClient.get<MovieListResponse>(ApiEndpoint.POPULAR, {
+      params: {
+        page: params.page,
+        language: 'en-US',
+      },
+      signal,
+    })
+
+    // Cache the result
+    cacheService.set(cacheKey, data, params as unknown as Record<string, unknown>)
+
+    return data
+  }
+
   async getTopRated(
     params: PaginationParams = { page: 1 },
     signal?: AbortSignal
@@ -56,6 +88,36 @@ class MoviesService {
 
     // Fetch from API
     const data = await apiClient.get<MovieListResponse>(ApiEndpoint.TOP_RATED, {
+      params: {
+        page: params.page,
+        language: 'en-US',
+      },
+      signal,
+    })
+
+    // Cache the result
+    cacheService.set(cacheKey, data, params as unknown as Record<string, unknown>)
+
+    return data
+  }
+
+  async getUpcoming(
+    params: PaginationParams = { page: 1 },
+    signal?: AbortSignal
+  ): Promise<MovieListResponse> {
+    // Check cache first
+    const cacheKey = this.CACHE_KEY_UPCOMING
+    const cachedData = cacheService.get<MovieListResponse>(
+      cacheKey,
+      params as unknown as Record<string, unknown>
+    )
+
+    if (cachedData) {
+      return cachedData
+    }
+
+    // Fetch from API
+    const data = await apiClient.get<MovieListResponse>(ApiEndpoint.UPCOMING, {
       params: {
         page: params.page,
         language: 'en-US',
@@ -108,8 +170,16 @@ class MoviesService {
     cacheService.invalidateByPrefix(this.CACHE_KEY_NOW_PLAYING)
   }
 
+  invalidatePopular(): void {
+    cacheService.invalidateByPrefix(this.CACHE_KEY_POPULAR)
+  }
+
   invalidateTopRated(): void {
     cacheService.invalidateByPrefix(this.CACHE_KEY_TOP_RATED)
+  }
+
+  invalidateUpcoming(): void {
+    cacheService.invalidateByPrefix(this.CACHE_KEY_UPCOMING)
   }
 
   invalidateMovieDetail(movieId: number): void {

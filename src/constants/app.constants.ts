@@ -8,14 +8,19 @@ export const APP_CONFIG = {
 
 export const MOVIE_CATEGORIES = [
   {
-    id: MovieCategory.NOW_PLAYING,
-    label: 'Now Playing',
-    value: MovieCategory.NOW_PLAYING,
+    id: MovieCategory.POPULAR,
+    label: 'Popular',
+    value: MovieCategory.POPULAR,
   },
   {
     id: MovieCategory.TOP_RATED,
     label: 'Top Rated',
     value: MovieCategory.TOP_RATED,
+  },
+  {
+    id: MovieCategory.UPCOMING,
+    label: 'Upcoming',
+    value: MovieCategory.UPCOMING,
   },
 ] as const
 

@@ -3,6 +3,11 @@
 
 .page {
   min-height: 100vh;
+  padding-top: 64px; // Account for fixed header
+  
+  @include respond-to(tablet) {
+    padding-top: 72px;
+  }
   
   &__content {
     padding: $spacing-xl 0;

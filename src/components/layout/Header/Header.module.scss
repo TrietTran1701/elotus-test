@@ -2,35 +2,147 @@
 @use '@/styles/abstracts/mixins' as *;
 
 .header {
-  position: sticky;
+  position: fixed;
   top: 0;
-  z-index: $z-index-sticky + 1;
-  background-color: rgba($background-color, 0.95);
-  backdrop-filter: blur(8px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  
-  &__content {
-    @include flex-between;
-    padding: $spacing-lg 0;
+  left: 0;
+  width: 100%;
+  padding: $spacing-md $spacing-xl;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: $z-index-fixed;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  background-color: transparent;
+
+  &.scrolled {
+    background-color: rgba(10, 10, 10, 0.95);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
   }
-  
+
+  &__container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: $spacing-lg;
+
+    @include respond-to(tablet) {
+      gap: $spacing-xl;
+    }
+  }
+
   &__logo {
+    font-weight: 700;
+    font-size: $font-size-lg;
+    color: $primary-color;
+    text-decoration: none;
+    transition: opacity 0.2s;
+    white-space: nowrap;
+
+    @include respond-to(tablet) {
+      font-size: $font-size-xl;
+    }
+
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+
+  &__nav {
     display: flex;
     align-items: center;
     gap: $spacing-sm;
-    font-size: $font-size-xl;
-    font-weight: 700;
-    color: $text-primary;
-    
+    flex: 1;
+    justify-content: center;
+
     @include respond-to(tablet) {
-      font-size: $font-size-2xl;
+      gap: $spacing-md;
     }
-    
-    &__icon {
-      font-size: $font-size-2xl;
-      
+
+    &__link {
+      color: $text-primary;
+      margin: 0 $spacing-sm;
+      font-size: $font-size-sm;
+      text-decoration: none;
+      transition: opacity 0.2s;
+      white-space: nowrap;
+
       @include respond-to(tablet) {
-        font-size: 2.5rem;
+        font-size: $font-size-md;
+        margin: 0 $spacing-md;
+      }
+
+      &:hover {
+        opacity: 0.8;
+      }
+
+      &--active {
+        opacity: 1;
+        font-weight: 600;
+      }
+    }
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: $spacing-md;
+    white-space: nowrap;
+
+    &__appBtn {
+      background: $primary-color;
+      border: none;
+      padding: $spacing-sm $spacing-md;
+      border-radius: 20px;
+      font-weight: 600;
+      font-size: $font-size-sm;
+      cursor: pointer;
+      color: $text-primary;
+      transition: opacity 0.2s, transform 0.2s;
+
+      @include respond-to(tablet) {
+        font-size: $font-size-md;
+        padding: $spacing-sm $spacing-lg;
+      }
+
+      &:hover {
+        opacity: 0.9;
+        transform: scale(1.05);
+      }
+    }
+
+    &__user {
+      color: $text-primary;
+      font-size: $font-size-sm;
+
+      @include respond-to(tablet) {
+        font-size: $font-size-md;
+      }
+    }
+  }
+
+  // Hide nav on mobile if needed, or make it scrollable
+  @media (max-width: 767px) {
+    &__nav {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
+    }
+
+    &__actions {
+      gap: $spacing-sm;
+
+      &__appBtn {
+        padding: $spacing-xs $spacing-sm;
+        font-size: $font-size-xs;
+      }
+
+      &__user {
+        display: none; // Hide on very small screens
       }
     }
   }
